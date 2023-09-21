@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:property_app/controller/auth_controller.dart';
 import 'package:property_app/pages/NewReals/reels.dart';
+import 'package:property_app/pages/agent_seller/short_list_page/shortlist.dart';
 import 'package:property_app/pages/agent_seller/side_menu/Referals/refers.dart';
 import 'package:property_app/pages/intro.dart';
 import 'package:property_app/widgets/diloge.dart';
@@ -26,9 +27,16 @@ class SideMenuController extends GetxController {
     },
     {
       'title': 'Reels',
-      'icon': const Icon(Icons.videocam_sharp),
+      'icon': const Icon(Icons.list_alt),
       'onTap': () {
         Get.to(() => const ReelPage());
+      }
+    },
+    {
+      'title': 'Short List',
+      'icon': const Icon(Icons.videocam_sharp),
+      'onTap': () {
+        Get.to(() => const ShortListPage());
       }
     },
     {

@@ -31,7 +31,7 @@ class ShortListPage extends StatelessWidget {
             children: List.generate(
                 2,
                 (index) => ChipWidget(
-                      text: 'Properties(0)',
+                      text: index == 0 ? 'Properties' : 'Projects',
                       color: primary_color.withOpacity(0.1),
                       borderColor: primary_color,
                     )),

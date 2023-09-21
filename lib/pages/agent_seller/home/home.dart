@@ -42,8 +42,8 @@ class HomeView extends StatelessWidget {
           return GestureDetector(
               onTap: () {
                 if (authController.userid.isEmpty) {
-                  Get.to(
-                      () => LoginView(userSelectionindex: userSelectionindex));
+                  Get.to(() => LoginView(
+                      isSkip: false, userSelectionindex: userSelectionindex));
                   Fluttertoast.showToast(msg: 'Need Login First');
                 } else {
                   Scaffold.of(context).openDrawer();
@@ -65,7 +65,8 @@ class HomeView extends StatelessWidget {
                 width: 120.w,
                 bColor: white_color,
                 child: TextWidget(
-                  text: 'Post Property',
+                  text: 'post_property'.tr,
+                  //'post_property',
                   color: white_color,
                 ).center(),
               ),

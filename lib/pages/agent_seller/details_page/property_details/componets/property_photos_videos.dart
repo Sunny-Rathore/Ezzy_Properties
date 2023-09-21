@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:property_app/extensions/extension.dart';
+import 'package:property_app/pages/Image_zoom/image_zoom_view.dart';
 import 'package:property_app/widgets/image_widget.dart';
 
 import '../../../../../Utils/color_utils.dart';
@@ -48,10 +49,17 @@ class PropertyPhotosVideos extends StatelessWidget {
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: EdgeInsets.only(right: 20.w),
-                        child: ImageWidget(
-                            height: 110.w,
-                            width: 110.w,
-                            url: snapshot.data.data[0].filesArray[index]),
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.to(() => ImageZoomPage(
+                                imageUrl:
+                                    snapshot.data.data[0].filesArray[index]));
+                          },
+                          child: ImageWidget(
+                              height: 110.w,
+                              width: 110.w,
+                              url: snapshot.data.data[0].filesArray[index]),
+                        ),
                       );
 
                       // Container(

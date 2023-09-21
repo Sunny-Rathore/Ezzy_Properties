@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:property_app/extensions/extension.dart';
 import 'package:property_app/pages/login_signup/login.dart';
 
 import '../../../Utils/color_utils.dart';
-import '../../../Widgets/text_widget.dart';
-
 import '../../../Utils/img_utils.dart';
 import '../../../Widgets/button.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
-
+import '../../../Widgets/text_widget.dart';
 import '../../Controller/slider_controller.dart';
 import '../../Utils/string_utils.dart';
 import '../../Widgets/dotindicator.dart';
@@ -48,7 +46,8 @@ class WlakThrough extends StatelessWidget {
                   textcolor: white_color,
                   color: secondary_color,
                   ontap: () {
-                    Get.to(const LoginView(userSelectionindex: 2));
+                    Get.to(
+                        const LoginView(isSkip: true, userSelectionindex: 2));
                     //  Get.to(() => const UserSelectionView());
                   }),
             ],

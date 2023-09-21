@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:property_app/localization/localization_controller.dart';
+import 'package:property_app/localization/localization_service/localization_service.dart';
 import 'package:property_app/pages/splash.dart';
 
 import 'Utils/color_utils.dart';
@@ -15,6 +17,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controllerr = Get.put(LocalizationController());
     return ScreenUtilInit(
         designSize: const Size(360, 800),
         minTextAdapt: true,
@@ -29,6 +32,9 @@ class MyApp extends StatelessWidget {
               textTheme: GoogleFonts.poppinsTextTheme(),
               primarySwatch: Colors.blueGrey,
             ),
+            locale: Locale(controllerr.locale.value),
+            fallbackLocale: const Locale('en', 'US'),
+            translations: Languages(),
             home: child,
           );
         },

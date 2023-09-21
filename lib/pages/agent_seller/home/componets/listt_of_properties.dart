@@ -8,6 +8,10 @@ import 'package:property_app/api_services/properties/property_list_api.dart';
 import 'package:property_app/controller/category_view_controller.dart';
 import 'package:property_app/extensions/extension.dart';
 import 'package:property_app/pages/agent_seller/home/componets/propeties_card.dart';
+import 'package:property_app/pages/agent_seller/home/projects/projectsview.dart';
+import 'package:property_app/pages/agent_seller/home/recomended_projects.dart/recomended_projects.dart';
+import 'package:property_app/pages/agent_seller/home/recomonded_properties/recomondec_propertyoes.dart';
+import 'package:property_app/pages/agent_seller/home/verified_dealers/verified_dealers.dart';
 import 'package:property_app/pages/view_all_property/view_all_propert.dart';
 import 'package:property_app/widgets/container_widget.dart';
 import 'package:property_app/widgets/shimmer.dart';
@@ -173,6 +177,16 @@ class ListOfProperties extends StatelessWidget {
             ),
           ),
           20.ph,
+          TextWidget(
+            text: 'Recomended Properties',
+            color: secondary_color,
+            textAlign: TextAlign.left,
+            size: 17.sp,
+            weight: FontWeight.w600,
+          ),
+
+          20.ph,
+          const RecomendedPropertiesView(),
           Obx(
             () => Visibility(
               visible: categoryController.selectedCategory.value.isEmpty
@@ -182,6 +196,23 @@ class ListOfProperties extends StatelessWidget {
                   _filteredProperty(properttyListController, '7', 'Row House'),
             ),
           ),
+
+          20.ph,
+          ProjectsView(useSelectionInidex: useSelectionInidex),
+          20.ph, 20.ph,
+          TextWidget(
+            text: 'Recomended Projects',
+            color: secondary_color,
+            textAlign: TextAlign.left,
+            size: 17.sp,
+            weight: FontWeight.w600,
+          ),
+          20.ph,
+          const RecomndedProjectsView(),
+          20.ph,
+          Visibility(
+              visible: useSelectionInidex == 2,
+              child: const VerifiedDealersView()),
         ],
       ),
     );

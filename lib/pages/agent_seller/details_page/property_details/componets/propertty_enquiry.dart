@@ -93,8 +93,8 @@ class ProPertyEnquiry extends StatelessWidget {
                               var id = preferences.getString('userId');
 
                               if (id!.isEmpty) {
-                                Get.to(() =>
-                                    const LoginView(userSelectionindex: 2));
+                                Get.to(() => const LoginView(
+                                    isSkip: false, userSelectionindex: 2));
                               } else {
                                 String msg =
                                     await controller.fetchApi(propertyId);
@@ -271,8 +271,8 @@ class ProPertyEnquiry extends StatelessWidget {
                                 await SharedPreferences.getInstance();
                             var id = preferences.getString('userId');
                             if (id!.isEmpty) {
-                              Get.to(
-                                  () => const LoginView(userSelectionindex: 2));
+                              Get.to(() => const LoginView(
+                                  isSkip: false, userSelectionindex: 2));
                             } else {
                               String msg =
                                   await askQuestionsApi.fetchApi(propertyId);

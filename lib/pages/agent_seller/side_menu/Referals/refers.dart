@@ -43,7 +43,8 @@ class ReferView extends StatelessWidget {
                 var referralCode = preferences.getString('CODE');
 
                 if (id!.isEmpty) {
-                  Get.to(() => const LoginView(userSelectionindex: 2));
+                  Get.to(() =>
+                      const LoginView(isSkip: false, userSelectionindex: 2));
                 }
                 await Share.share('Link:$referralCode');
               },

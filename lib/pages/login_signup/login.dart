@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:property_app/controller/auth_controller.dart';
 import 'package:property_app/extensions/extension.dart';
 import 'package:property_app/pages/login_signup/otp_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Utils/color_utils.dart';
-import '../../../Widgets/text_widget.dart';
-
 import '../../../Utils/img_utils.dart';
 import '../../../Widgets/button.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
-
+import '../../../Widgets/text_widget.dart';
 import '../../Widgets/back_button.dart';
 import '../../api_services/auth/login_api.dart';
 import '../../api_services/auth/signup_api.dart';
@@ -22,9 +20,11 @@ import '../agent_seller/bottom_nav_bar/bottom_nav.dart';
 import '../agent_seller/home/home.dart';
 
 class LoginView extends StatelessWidget {
-  const LoginView({Key? key, required this.userSelectionindex})
+  const LoginView(
+      {Key? key, required this.userSelectionindex, required this.isSkip})
       : super(key: key);
   final int userSelectionindex;
+  final bool isSkip;
   @override
   Widget build(BuildContext context) {
     final controlller = Get.put(LoginApi());
@@ -41,7 +41,7 @@ class LoginView extends StatelessWidget {
             children: [
               const BackButtonWidget(),
               Visibility(
-                visible: userSelectionindex == 2,
+                visible: isSkip,
                 child: GestureDetector(
                     onTap: () async {
                       SharedPreferences preferences =
@@ -324,6 +324,7 @@ class LoginView extends StatelessWidget {
                         textcolor: white_color,
                         ontap: () {
                           Get.to(() => LoginView(
+                              isSkip: true,
                               userSelectionindex: userSelectionindex));
                         }),
                   ],
