@@ -88,7 +88,7 @@ class UserSelectionView extends StatelessWidget {
                   text: 'Continue',
                   ontap: () {
                     Get.to(() => LoginView(
-                          isSkip: true,
+                          isSkip: false,
                           userSelectionindex:
                               userselectionController.selectuserIndex.value,
                         ));

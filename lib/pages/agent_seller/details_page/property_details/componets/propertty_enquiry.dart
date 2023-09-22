@@ -7,7 +7,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:property_app/api_services/ask_questions/ask_questions_api.dart';
-import 'package:property_app/api_services/create_intrest/create_intrest.dart';
 import 'package:property_app/api_services/properties/property_list_api.dart';
 import 'package:property_app/extensions/extension.dart';
 import 'package:property_app/widgets/container_widget.dart';
@@ -22,6 +21,7 @@ import '../../../../../Widgets/button.dart';
 import '../../../../../Widgets/text_widget.dart';
 import '../../../../login_signup/login.dart';
 import '../../../../map/map_view.dart';
+import '../../../enquiry/enquiry.dart';
 import '../../../home/componets/propeties_card.dart';
 
 class ProPertyEnquiry extends StatelessWidget {
@@ -36,7 +36,7 @@ class ProPertyEnquiry extends StatelessWidget {
   Widget build(BuildContext context) {
     final ProPertListApi proPertListApi = Get.find();
     final askQuestionsApi = Get.put(AskQuestionsApi());
-    final controller = Get.put(CreateIntrestApi());
+    // final controller = Get.put(CreateIntrestApi());
 
     return FutureBuilder(
       future: proPertListApi.fetchApi(propertyid: propertyId),
@@ -68,7 +68,7 @@ class ProPertyEnquiry extends StatelessWidget {
                           color: secondary_color,
                         ),
                         TextWidget(
-                          text: '+91${snapshot.data.data[0].ownerMobile}',
+                          text: '+91XXXXXXXX',
                           size: 16.sp,
                           color: greytext,
                         ),
@@ -88,19 +88,21 @@ class ProPertyEnquiry extends StatelessWidget {
                           Button(
                             text: 'Enquiry Now',
                             ontap: () async {
-                              SharedPreferences preferences =
-                                  await SharedPreferences.getInstance();
-                              var id = preferences.getString('userId');
+                              Get.to(() => const EnquiryForm());
+                              // SharedPreferences preferences =
+                              //     await SharedPreferences.getInstance();
+                              // var id = preferences.getString('userId');
 
-                              if (id!.isEmpty) {
-                                Get.to(() => const LoginView(
-                                    isSkip: false, userSelectionindex: 2));
-                              } else {
-                                String msg =
-                                    await controller.fetchApi(propertyId);
-                                Fluttertoast.showToast(msg: msg);
-                              }
-                              // Get.to(() => const EnquiryForm());
+                              // if (id!.isEmpty) {
+                              //   Get.to(() => const EnquiryForm());
+                              //   // Get.to(() => const LoginView(
+                              //   //     isSkip: false, userSelectionindex: 2));
+                              // } else {
+                              //   Get.to(() => const EnquiryForm());
+                              //   String msg =
+                              //       await controller.fetchApi(propertyId);
+                              //   Fluttertoast.showToast(msg: msg);
+                              // }
                             },
                             color: secondary_color,
                             width: 130.w,
@@ -300,11 +302,12 @@ class ProPertyEnquiry extends StatelessWidget {
                           address: snapshot.data.data[0].address ?? ''),
                       builder: (BuildContext context,
                           AsyncSnapshot similarsnapshot) {
-                        if (snapshot.connectionState ==
+                        if (similarsnapshot.connectionState ==
                             ConnectionState.waiting) {
                           return loadingUi();
-                        } else if (snapshot.hasError) {
-                          return TextWidget(text: snapshot.error.toString());
+                        } else if (similarsnapshot.hasError) {
+                          return TextWidget(
+                              text: similarsnapshot.error.toString());
                         } else if (snapshot.hasData) {
                           return SizedBox(
                             height: 313.w,

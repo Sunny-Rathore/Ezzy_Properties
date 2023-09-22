@@ -36,6 +36,7 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       drawer: const SideMenuView(),
       appBar: AppBar(
+        toolbarHeight: 60.w,
         elevation: 0,
         bottom: _bottomWidget(context),
         leading: Builder(builder: (context) {
@@ -61,13 +62,16 @@ class HomeView extends StatelessWidget {
                     : Get.to(() => const DetailsForPostProperty());
               },
               child: ContainerWidget(
+                borderadius: 7.r,
                 color: secondary_color,
-                width: 120.w,
-                bColor: white_color,
+                width: 100.w,
+                height: 60.w,
+                bColor: white_color.withOpacity(0.8),
                 child: TextWidget(
-                  text: 'post_property'.tr,
+                  text: "Post Property",
                   //'post_property',
-                  color: white_color,
+                  size: 13.sp,
+                  color: white_color.withOpacity(0.8),
                 ).center(),
               ),
             ),
@@ -166,13 +170,16 @@ class HomeView extends StatelessWidget {
       future: controller.fetchApi(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator().center();
+          return SizedBox(
+            height: 200.w,
+            width: double.infinity,
+          );
         } else if (snapshot.hasError) {
           return TextWidget(text: snapshot.error.toString());
         } else if (snapshot.hasData) {
           return CarouselSlider.builder(
             itemCount: snapshot.data.data.length,
-            itemBuilder: (context, index, realIndex) {
+            itemBuilder: (context, index, reelIndex) {
               return ImageWidget(
                 url: snapshot.data.data[index].files,
                 height: 100.w,

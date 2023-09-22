@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-
 import 'package:property_app/constant/constants.dart';
 import 'package:property_app/model/create_intrested/ceate_intrested_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,6 +27,7 @@ class CreateIntrestApi extends GetxController {
       var response =
           await dio.post('${API_END_POINt}create_interests', data: fromData);
       if (response.statusCode == 200) {
+        print(response.data);
         var mydata = CreateIntrested.fromJson(jsonDecode(response.data));
         msg = mydata.message;
       }

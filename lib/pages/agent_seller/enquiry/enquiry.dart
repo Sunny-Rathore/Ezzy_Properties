@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:property_app/extensions/extension.dart';
 
 import '../../../Utils/color_utils.dart';
@@ -10,10 +9,7 @@ import '../../../Utils/img_utils.dart';
 import '../../../Utils/string_utils.dart';
 import '../../../Widgets/button.dart';
 import '../../../Widgets/text_widget.dart';
-import 'package:flutter_svg/svg.dart';
-
 import '../../../widgets/textfromfield_widget.dart';
-import '../../owner_details.dart';
 
 class EnquiryForm extends StatelessWidget {
   const EnquiryForm({Key? key}) : super(key: key);
@@ -28,7 +24,7 @@ class EnquiryForm extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         children: [
-          41.ph,
+          10.ph,
           TextWidget(
             text: 'Contact Owner',
             color: secondary_color,
@@ -66,7 +62,7 @@ class EnquiryForm extends StatelessWidget {
                       color: secondary_color,
                     ),
                     TextWidget(
-                      text: 'Owner +91-99xxxxxxxx',
+                      text: 'Owner +91XXXXXXXX',
                       color: greytext,
                     ),
                   ],
@@ -138,40 +134,23 @@ class EnquiryForm extends StatelessWidget {
                       ),
                     )),
           ),
-          20.ph,
-          Row(
-            children: [
-              Checkbox(value: true, onChanged: (val) {}),
-              TextWidget(
-                text: 'accept terms and conditions',
-                color: blacktext,
-                size: 12.sp,
-              ),
-            ],
-          ),
-          34.ph,
+          50.ph,
+
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Button(
                 width: 260.w,
-                text: 'View Phone Number',
+                text: 'Submit',
                 ontap: () {
-                  Get.to(const OwnerDetials());
+                  //Get.to(const OwnerDetials());
                 },
                 color: secondary_color,
                 textcolor: white_color,
               ),
             ],
           ),
-          30.ph,
-          TextWidget(
-            text: 'Similar Properties',
-            size: 20.sp,
-            color: secondary_color,
-            textAlign: TextAlign.left,
-          ),
-          20.ph,
+
           // SizedBox(
           //   height: 313.h,
           //   child: ListView.builder(
@@ -184,43 +163,6 @@ class EnquiryForm extends StatelessWidget {
           //     },
           //   ),
           // ),//! use it
-
-          Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
-            color: const Color(0xFFFFE6C1),
-            height: 80.h,
-            width: double.infinity,
-            child: Row(children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const TextWidget(
-                      text: 'Don’t Miss Out',
-                      color: Colors.black,
-                    ),
-                    2.ph,
-                    TextWidget(
-                      text: 'Get Notified For New Properties In Indore Area.',
-                      color: blacktext,
-                      size: 12.sp,
-                      textAlign: TextAlign.left,
-                    ),
-                  ],
-                ),
-              ),
-              10.pw,
-              CircleAvatar(
-                backgroundColor: white_color,
-                child: SvgPicture.asset(
-                  bellicon,
-                  color: secondary_color,
-                ),
-              )
-            ]),
-          ),
-          30.ph,
         ],
       ),
     );

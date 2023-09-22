@@ -144,19 +144,10 @@ class ListOfProperties extends StatelessWidget {
                   _filteredProperty(properttyListController, '3', 'Apartments'),
             ),
           ),
+          20.ph,
           _display_ads(ads3controller),
           20.ph,
-          Obx(
-            () => Visibility(
-              visible: categoryController.selectedCategory.value.isEmpty
-                  ? true
-                  : false,
-              child: _filteredProperty(
-                  properttyListController, '4', 'Residential Apartments'),
-            ),
-          ),
-          20.ph,
-          _display_ads(ads4controller),
+
           Obx(
             () => Visibility(
               visible: categoryController.selectedCategory.value.isEmpty
@@ -187,6 +178,9 @@ class ListOfProperties extends StatelessWidget {
 
           20.ph,
           const RecomendedPropertiesView(),
+          20.ph,
+          _display_ads(ads4controller),
+          20.ph,
           Obx(
             () => Visibility(
               visible: categoryController.selectedCategory.value.isEmpty

@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-
 import 'package:property_app/constant/constants.dart';
 
 class CityApi extends GetxController {

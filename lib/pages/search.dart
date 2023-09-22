@@ -16,7 +16,6 @@ import '../Widgets/button.dart';
 import '../api_services/properties/get_property_type_api.dart';
 import '../controller/filter_controller.dart';
 import '../widgets/chip_widget.dart';
-import '../widgets/city_drop_down.dart';
 import 'agent_seller/post_property/post_property.dart';
 
 class SearchPage extends StatelessWidget {
@@ -31,6 +30,14 @@ class SearchPage extends StatelessWidget {
             physics: const BouncingScrollPhysics(),
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.w),
             children: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: CloseButton(
+              onPressed: () {
+                Get.back();
+              },
+            ),
+          ),
           Container(
             width: 320.w,
             height: 50.h,
@@ -75,6 +82,7 @@ class SearchPage extends StatelessWidget {
     final propertytypeController = Get.put(ProPertyTypeApi());
     final searchController = Get.put(SearchfiltterController());
     final filtercontroller = Get.put(FilterController());
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -102,7 +110,59 @@ class SearchPage extends StatelessWidget {
           );
         })),
         24.ph,
-        const CityDropdown(),
+        TextWidget(
+          text: 'Select City',
+          color: secondary_color,
+          size: 16.sp,
+          textAlign: TextAlign.left,
+        ),
+        20.ph,
+        Wrap(
+          children: [
+            Chip(
+              backgroundColor: Colors.grey.shade100,
+              label: const TextWidget(text: 'Add'),
+              onDeleted: () async {
+                await searchController.laodCity();
+                Get.dialog(SimpleDialog(
+                  children: [
+                    Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: List.generate(
+                          searchController.cityList.length,
+                          (index) => ListTile(
+                              onTap: () {
+                                searchController.addcity(
+                                    searchController.cityList[index].name);
+                                Get.back();
+                              },
+                              title: TextWidget(
+                                text: searchController.cityList[index].name,
+                              )),
+                        )),
+                  ],
+                ));
+              },
+              deleteIcon: const Icon(Icons.add),
+            ),
+            10.pw,
+            Obx(() => Wrap(
+                  children: List.generate(
+                      searchController.addedCity.length,
+                      (index) => Padding(
+                            padding: EdgeInsets.only(right: 10.w),
+                            child: Chip(
+                                backgroundColor:
+                                    primary_color.withOpacity(0.15),
+                                onDeleted: () {
+                                  searchController.removeCity(index);
+                                },
+                                label: TextWidget(
+                                    text: searchController.addedCity[index])),
+                          )),
+                )),
+          ],
+        ),
         16.ph,
         TextWidget(
           text: 'Property Type',
@@ -177,7 +237,8 @@ class SearchPage extends StatelessWidget {
                     controller: searchController.maxPrice, hint: 'Max Price')),
           ],
         ),
-        16.ph,
+        10.ph,
+        _plotLandTypeView(searchController),
         Obx(
           () => Visibility(
             visible: searchController.type.value != '5',
@@ -249,6 +310,135 @@ class SearchPage extends StatelessWidget {
         ])
       ],
     );
+  }
+
+  Obx _plotLandTypeView(SearchfiltterController searchController) {
+    return Obx(() => Visibility(
+          visible: searchController.type.value == '5',
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextWidget(
+                text: 'Types of Plots/Land',
+                color: secondary_color,
+                size: 16.sp,
+                textAlign: TextAlign.left,
+              ),
+              10.ph,
+              SizedBox(
+                  height: 50.w,
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 3,
+                    itemBuilder: (context, index) {
+                      List plotTypeList = [
+                        'Commerecial Land/inst. Land',
+                        'Industial Lands/Plots',
+                        'Agriculutral/Farm Land',
+                      ];
+                      return Obx(
+                        () => Padding(
+                          padding: EdgeInsets.only(right: 10.w),
+                          child: Chip(
+                              onDeleted: () {
+                                searchController
+                                    .onPlotTypeChange(plotTypeList[index]);
+                              },
+                              deleteIcon: const Icon(Icons.add),
+                              backgroundColor:
+                                  searchController.typesOfPlotLand ==
+                                          plotTypeList[index]
+                                      ? primary_color.withOpacity(0.2)
+                                      : Colors.white,
+                              side: BorderSide(color: secondary_color),
+                              label: Text(plotTypeList[index])),
+                        ),
+                      );
+                    },
+                  )),
+              TextWidget(
+                text: 'Facing Direction',
+                color: secondary_color,
+                size: 16.sp,
+                textAlign: TextAlign.left,
+              ),
+              10.ph,
+              SizedBox(
+                  height: 50.w,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 8,
+                    itemBuilder: (context, index) {
+                      List directionList = [
+                        'North',
+                        'East',
+                        'North-East',
+                        'South-East',
+                        'North-West',
+                        'West',
+                        'South',
+                        'South-West'
+                      ];
+                      return Padding(
+                          padding: EdgeInsets.only(right: 10.w),
+                          child: Obx(
+                            () => Chip(
+                                onDeleted: () {
+                                  searchController
+                                      .onDirectionChange(directionList[index]);
+                                },
+                                deleteIcon: const Icon(Icons.add),
+                                backgroundColor:
+                                    searchController.facingDirection ==
+                                            directionList[index]
+                                        ? primary_color.withOpacity(0.2)
+                                        : Colors.white,
+                                side: BorderSide(color: secondary_color),
+                                label: Text(directionList[index])),
+                          ));
+                    },
+                  )),
+              TextWidget(
+                text: 'Posted By',
+                color: secondary_color,
+                size: 16.sp,
+                textAlign: TextAlign.left,
+              ),
+              10.ph,
+              SizedBox(
+                  height: 50.w,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 4,
+                    itemBuilder: (context, index) {
+                      List postedNameList = [
+                        'Owner',
+                        'Builder',
+                        'Dealer',
+                        'Feature Dealer',
+                      ];
+                      return Padding(
+                          padding: EdgeInsets.only(right: 10.w),
+                          child: Obx(
+                            () => Chip(
+                                onDeleted: () {
+                                  searchController
+                                      .onPostedChange(postedNameList[index]);
+                                },
+                                deleteIcon: const Icon(Icons.add),
+                                backgroundColor: searchController.postedBy ==
+                                        postedNameList[index]
+                                    ? primary_color.withOpacity(0.2)
+                                    : Colors.white,
+                                side: BorderSide(color: secondary_color),
+                                label: Text(postedNameList[index])),
+                          ));
+                    },
+                  ))
+            ],
+          ),
+        ));
   }
 }
 
