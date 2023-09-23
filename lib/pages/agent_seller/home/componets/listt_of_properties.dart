@@ -8,10 +8,7 @@ import 'package:property_app/api_services/properties/property_list_api.dart';
 import 'package:property_app/controller/category_view_controller.dart';
 import 'package:property_app/extensions/extension.dart';
 import 'package:property_app/pages/agent_seller/home/componets/propeties_card.dart';
-import 'package:property_app/pages/agent_seller/home/projects/projectsview.dart';
-import 'package:property_app/pages/agent_seller/home/recomended_projects.dart/recomended_projects.dart';
 import 'package:property_app/pages/agent_seller/home/recomonded_properties/recomondec_propertyoes.dart';
-import 'package:property_app/pages/agent_seller/home/verified_dealers/verified_dealers.dart';
 import 'package:property_app/pages/view_all_property/view_all_propert.dart';
 import 'package:property_app/widgets/container_widget.dart';
 import 'package:property_app/widgets/shimmer.dart';
@@ -24,6 +21,9 @@ import '../../../../api_services/banner/ads4_api.dart';
 import '../../../../api_services/banner/ads_api.dart';
 import '../../../../api_services/properties/get_property_type_api.dart';
 import '../../../../widgets/image_widget.dart';
+import '../projects/projectsview.dart';
+import '../recomended_projects.dart/recomended_projects.dart';
+import '../verified_dealers/verified_dealers.dart';
 
 class ListOfProperties extends StatelessWidget {
   const ListOfProperties({
@@ -40,7 +40,7 @@ class ListOfProperties extends StatelessWidget {
     final ads2controller = Get.put(Ads2Api());
     final ads3controller = Get.put(Ads3Api());
     final ads4controller = Get.put(Ads4Api());
-
+    final propertytypeController = Get.put(ProPertyTypeApi());
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Column(
@@ -48,8 +48,10 @@ class ListOfProperties extends StatelessWidget {
         children: [
           _display_ads(ads1controller),
           20.ph,
-          //  // filtter(propertytypeController, categoryController),
-          //   30.ph,
+          Visibility(
+              visible: false,
+              child: filtter(propertytypeController, categoryController)),
+          30.ph,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -93,7 +95,7 @@ class ListOfProperties extends StatelessWidget {
                           color: secondary_color,
                         ).center()
                       : SizedBox(
-                          height: 310.w,
+                          height: 320.w,
                           child: ListView.builder(
                             shrinkWrap: true,
                             physics: const BouncingScrollPhysics(),
@@ -147,7 +149,6 @@ class ListOfProperties extends StatelessWidget {
           20.ph,
           _display_ads(ads3controller),
           20.ph,
-
           Obx(
             () => Visibility(
               visible: categoryController.selectedCategory.value.isEmpty
@@ -175,7 +176,6 @@ class ListOfProperties extends StatelessWidget {
             size: 17.sp,
             weight: FontWeight.w600,
           ),
-
           20.ph,
           const RecomendedPropertiesView(),
           20.ph,
@@ -190,10 +190,10 @@ class ListOfProperties extends StatelessWidget {
                   _filteredProperty(properttyListController, '7', 'Row House'),
             ),
           ),
-
           20.ph,
           ProjectsView(useSelectionInidex: useSelectionInidex),
-          20.ph, 20.ph,
+          20.ph,
+          20.ph,
           TextWidget(
             text: 'Recomended Projects',
             color: secondary_color,
@@ -298,7 +298,7 @@ class ListOfProperties extends StatelessWidget {
                     ),
                     20.ph,
                     SizedBox(
-                      height: 310.w,
+                      height: 320.w,
                       child: ListView.builder(
                         shrinkWrap: true,
                         physics: const BouncingScrollPhysics(),

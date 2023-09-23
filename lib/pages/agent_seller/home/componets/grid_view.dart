@@ -43,27 +43,51 @@ class GridBoxView extends StatelessWidget {
             fontWeight: FontWeight.bold),
       ),
     ];
-    return StaggeredGridTile.count(
-      crossAxisCellCount: 2,
-      mainAxisCellCount: 2,
-      child: Wrap(
-          children: List.generate(
-        3,
-        (index) => Padding(
-          padding: EdgeInsets.only(
-              left: index.isEven ? 0 : 20.w, top: index.isEven ? 0 : 20.w),
-          child: GestureDetector(
-            onTap: () {
-              Get.to(() => const SearchMakers());
-            },
-            child: _box(
-                color: colorList[index],
-                image: imageList[index],
-                text: textList[index]),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      child: StaggeredGrid.count(
+        crossAxisCount: 2,
+        mainAxisSpacing: 20.w,
+        crossAxisSpacing: 20.w,
+        children: List.generate(
+          3,
+          (index) => Padding(
+            padding: EdgeInsets.only(top: index.isEven ? 0 : 20.w),
+            child: GestureDetector(
+              onTap: () {
+                Get.to(() => const SearchMakers());
+              },
+              child: _box(
+                  color: colorList[index],
+                  image: imageList[index],
+                  text: textList[index]),
+            ),
           ),
         ),
-      )),
+      ),
     );
+
+    // StaggeredGridTile.count(
+    //   crossAxisCellCount: 2,
+    //   mainAxisCellCount: 2,
+    //   child: Wrap(
+    //     children: List.generate(
+    //   3,
+    //   (index) => Padding(
+    //     padding: EdgeInsets.only(
+    //         left: index.isEven ? 0 : 20.w, top: index.isEven ? 0 : 20.w),
+    //     child: GestureDetector(
+    //       onTap: () {
+    //         Get.to(() => const SearchMakers());
+    //       },
+    //       child: _box(
+    //           color: colorList[index],
+    //           image: imageList[index],
+    //           text: textList[index]),
+    //     ),
+    //   ),
+    // )),
+    // );
   }
 
   ContainerWidget _box({color, text, image}) {

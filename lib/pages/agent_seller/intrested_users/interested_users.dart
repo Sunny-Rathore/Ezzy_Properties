@@ -92,14 +92,14 @@ class InterestedUsersPage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 12.w),
       alignment: Alignment.center,
-      height: 74.h,
+      height: 80.h,
       margin: EdgeInsets.only(bottom: 10.h),
       width: double.infinity,
       decoration: BoxDecoration(
           color: const Color(0xfff7f7f7),
           borderRadius: BorderRadius.circular(5.r)),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CircleAvatar(
               backgroundImage:

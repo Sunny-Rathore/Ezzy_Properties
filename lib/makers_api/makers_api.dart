@@ -19,7 +19,7 @@ class MakersApi extends GetxController {
       final response = await dio.get('${API_END_POINt}get_makers_byArea',
           queryParameters: {'type': type, 'Area': area});
       if (response.statusCode == 200) {
-        mydata = MackersModel.fromJson(jsonDecode(response.data));
+        mydata = MakersModel.fromJson(jsonDecode(response.data));
       }
     } catch (e) {
       if (e is DioException) {

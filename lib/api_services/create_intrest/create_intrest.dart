@@ -27,7 +27,6 @@ class CreateIntrestApi extends GetxController {
       var response =
           await dio.post('${API_END_POINt}create_interests', data: fromData);
       if (response.statusCode == 200) {
-        print(response.data);
         var mydata = CreateIntrested.fromJson(jsonDecode(response.data));
         msg = mydata.message;
       }

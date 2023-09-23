@@ -48,42 +48,35 @@ class MakersList extends StatelessWidget {
               width: 50,
               child: AspectRatio(
                   aspectRatio: 1,
-                  child: ImageWidget(url: snapshot.data.data[index].userImage)),
+                  child: ImageWidget(url: snapshot.data.data[index].profile)),
             ),
-            title: Text(snapshot.data.data[index].name),
-            subtitle: Text(snapshot.data.data[index].email),
+            title: Text(snapshot.data.data[index].username),
+            subtitle: Text(
+              snapshot.data.data[index].description,
+              maxLines: 1,
+            ),
           ),
-          children: [_expantionItem()],
+          children: [_expantionItem(snapshot, index: index)],
         );
       },
     );
   }
 
-  Widget _expantionItem() {
+  Widget _expantionItem(AsyncSnapshot snapshot, {required int index}) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5.w),
       child: Column(
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 150.w,
-                width: 150.w,
-                decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(14)),
-                    image: DecorationImage(
-                        image: NetworkImage(
-                            "https://profilemagazine.com/wp-content/uploads/2020/04/Ajmere-Dale-Square-thumbnail.jpg"))),
-              ),
-              10.pw,
-              Expanded(
-                  child: TextWidget(
-                      size: 12.sp,
-                      text:
-                          'I am a passionate and innovative architect with a deep love for design and a commitment to transforming spaces into functional works of art. With [X] years of experience in the field, I have had the privilege of working on a diverse range of projects, each one offering unique challenges and opportunities for creative expression.'))
-            ],
+          Container(
+            height: 200.w,
+            width: double.infinity,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(snapshot.data.data[index].profile))),
           ),
+          10.ph,
+          TextWidget(size: 12.sp, text: snapshot.data.data[index].description),
           5.ph,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -96,14 +89,20 @@ class MakersList extends StatelessWidget {
                           color: Colors.yellow,
                         )),
               ),
-              TextWidget(text: 'Price ${rupees}2000')
+              TextWidget(
+                  text: 'Price ${rupees + snapshot.data.data[index].price}')
             ],
           ),
           5.ph,
           Button(
             text: 'View More',
             ontap: () {
-              Get.to(() => const ViewMoreView());
+              Get.to(() => ViewMoreView(
+                    reviewList: snapshot.data.data[index].reviews,
+                    workList: snapshot.data.data[index].workImages,
+                    snapshot: snapshot,
+                    index: index,
+                  ));
             },
             color: secondary_color,
             textcolor: Colors.white,

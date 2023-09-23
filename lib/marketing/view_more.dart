@@ -5,13 +5,22 @@ import 'package:property_app/extensions/extension.dart';
 import 'package:property_app/marketing/markenting_intrest.dart';
 import 'package:property_app/utils/color_utils.dart';
 import 'package:property_app/widgets/button.dart';
-import 'package:property_app/widgets/container_widget.dart';
+import 'package:property_app/widgets/image_widget.dart';
 
 import '../utils/string_utils.dart';
 import '../widgets/text_widget.dart';
 
 class ViewMoreView extends StatelessWidget {
-  const ViewMoreView({super.key});
+  final int index;
+  final AsyncSnapshot snapshot;
+  final List workList;
+  final List reviewList;
+  const ViewMoreView(
+      {super.key,
+      required this.snapshot,
+      required this.index,
+      required this.workList,
+      required this.reviewList});
 
   @override
   Widget build(BuildContext context) {
@@ -24,96 +33,96 @@ class ViewMoreView extends StatelessWidget {
           pinned: true,
           flexibleSpace: FlexibleSpaceBar(
             centerTitle: false,
-            title: const Text('Micelle Johnathan'),
+            title: Text(snapshot.data.data[index].username),
             background: Image.network(
-              'https://profilemagazine.com/wp-content/uploads/2020/04/Ajmere-Dale-Square-thumbnail.jpg',
+              snapshot.data.data[index].profile,
               fit: BoxFit.cover,
             ),
           ),
         ),
+        SliverToBoxAdapter(
+          child: _aboutUserView(),
+        ),
         SliverList(
-            delegate:
-                SliverChildBuilderDelegate(childCount: 30, (context, index) {
-          if (index == 0) {
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  20.ph,
-                  5.ph,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: List.generate(
-                            5,
-                            (index) => const Icon(
-                                  Icons.star,
-                                  color: Colors.yellow,
-                                )),
-                      ),
-                      TextWidget(text: 'Price ${rupees}2000')
-                    ],
-                  ),
-                  5.ph,
-                  TextWidget(
-                      size: 12.sp,
-                      text:
-                          'I am a passionate and innovative architect with a deep love for design and a commitment to transforming spaces into functional works of art. With [X] years of experience in the field, I have had the privilege of working on a diverse range of projects, each one offering unique challenges and opportunities for creative expression.'),
-                  20.ph,
-                  SizedBox(
-                      height: 150,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: previuceWork
-                            .map((e) => WorkCard(
-                                title: e['title'],
-                                image: e['image'],
-                                onTap: e['onTap']))
-                            .toList(),
-                      )),
-                  20.ph,
-                  Button(
-                      textcolor: Colors.white,
-                      color: secondary_color,
-                      text: 'Enquiry',
-                      ontap: () {
-                        Get.to(() => const MarketingIntrestView());
-                      }).center(),
-                  20.ph,
-                  TextWidget(
-                    text: "Reviews",
-                    size: 20.sp,
-                    weight: FontWeight.bold,
-                  )
-                ],
-              ),
-            );
-          } else {
-            return ListTile(
-              // horizontalTitleGap: 20,
-              leading: ContainerWidget(
-                height: 50.w,
-                width: 50.w,
-                child: Image.network(
-                  'https://profilemagazine.com/wp-content/uploads/2020/04/Ajmere-Dale-Square-thumbnail.jpg', // Replace with your image
-                  fit: BoxFit.cover,
-                ),
-              ),
-              title: TextWidget(
-                text: 'Ajay',
-                size: 15.sp,
-              ),
-              subtitle: TextWidget(
-                text: "innovative architect with a deep love",
-                size: 12.sp,
-              ),
-            );
-          }
+            delegate: SliverChildBuilderDelegate(childCount: reviewList.length,
+//snapshot.data.data[index].reviews.length,
+                (context, listindex) {
+          return ListTile(
+            // horizontalTitleGap: 20,
+            leading: ImageWidget(
+              height: 50.w,
+              width: 50.w,
+              url: snapshot.data.data[index].reviews[listindex],
+            ),
+
+            title: TextWidget(
+              text: snapshot.data.data[index].reviews[listindex],
+              size: 15.sp,
+            ),
+            subtitle: TextWidget(
+              text: "innovative architect with a deep love",
+              size: 12.sp,
+            ),
+          );
         }))
       ],
     ));
+  }
+
+  Padding _aboutUserView() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          20.ph,
+          5.ph,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: List.generate(
+                    5,
+                    (index) => const Icon(
+                          Icons.star,
+                          color: Colors.yellow,
+                        )),
+              ),
+              TextWidget(
+                  text: 'Price ${rupees + snapshot.data.data[index].price}')
+            ],
+          ),
+          5.ph,
+          TextWidget(size: 12.sp, text: snapshot.data.data[index].description),
+          20.ph,
+          SizedBox(
+              height: 150,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: previuceWork
+                    .map((e) => WorkCard(
+                        title: e['title'],
+                        image: e['image'],
+                        onTap: e['onTap']))
+                    .toList(),
+              )),
+          20.ph,
+          Button(
+              textcolor: Colors.white,
+              color: secondary_color,
+              text: 'Enquiry',
+              ontap: () {
+                Get.to(() => const MarketingIntrestView());
+              }).center(),
+          20.ph,
+          TextWidget(
+            text: "Reviews",
+            size: 20.sp,
+            weight: FontWeight.bold,
+          )
+        ],
+      ),
+    );
   }
 }
 

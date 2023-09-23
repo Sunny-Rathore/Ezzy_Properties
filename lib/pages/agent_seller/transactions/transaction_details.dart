@@ -48,6 +48,7 @@ class TransactionDetailsView extends StatelessWidget {
                     .center();
               } else if (snapshot.hasData) {
                 return ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: snapshot.data.data.length,
                   itemBuilder: (BuildContext context, int index) {
@@ -68,7 +69,7 @@ class TransactionDetailsView extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 10.h),
       padding: EdgeInsets.all(10.w),
       alignment: Alignment.center,
-      height: 55.h,
+      height: 60.h,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.r),
           color: white_color,

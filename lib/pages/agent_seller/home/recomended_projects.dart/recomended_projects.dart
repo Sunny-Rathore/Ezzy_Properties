@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:property_app/extensions/extension.dart';
 import 'package:property_app/widgets/projects_card.dart';
 
 import '../../../../api_services/properties/property_list_api.dart';
+import '../../../../widgets/text_widget.dart';
 
 class RecomndedProjectsView extends StatelessWidget {
   const RecomndedProjectsView({super.key});
@@ -14,7 +16,14 @@ class RecomndedProjectsView extends StatelessWidget {
     return FutureBuilder(
       future: properttyListController.fetchApi(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        return _horizontalGridView(snapshot);
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator().center();
+        } else if (snapshot.hasError) {
+          return TextWidget(text: snapshot.error.toString()).center();
+        } else if (snapshot.hasData) {
+          return _horizontalGridView(snapshot);
+        }
+        return const CircularProgressIndicator().center();
       },
     );
   }

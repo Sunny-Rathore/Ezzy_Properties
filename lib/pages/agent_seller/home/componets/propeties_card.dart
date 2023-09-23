@@ -186,13 +186,10 @@ class PropertiesCard extends StatelessWidget {
                 userSelectionIndex == 2 ? 50.ph : 0.ph,
                 Obx(() => cardController.userid.value !=
                         snapshot.data.data[index].userId
-                    ? Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          viewDetailsButton(
-                              snapshot.data.data[index].propertyId),
-                        ],
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: viewDetailsButton(
+                            snapshot.data.data[index].propertyId),
                       )
                     : Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

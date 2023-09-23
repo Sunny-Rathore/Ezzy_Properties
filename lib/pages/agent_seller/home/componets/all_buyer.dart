@@ -87,7 +87,7 @@ class _AllBuyersViewState extends State<AllBuyersView> {
                                       size: 14.sp,
                                       textAlign: TextAlign.left,
                                     ),
-                                    15.pw,
+                                    5.pw,
                                     snapshot.data.data[index].viewed == '1'
                                         ? ContainerWidget(
                                             height: 20.w,
@@ -148,7 +148,7 @@ class _AllBuyersViewState extends State<AllBuyersView> {
                                     color: secondary_color,
                                     size: 10.sp,
                                   ),
-                                  120.pw,
+                                  100.pw,
                                   TextWidget(
                                     text:
                                         snapshot.data.data[index].timeAgo ?? '',
