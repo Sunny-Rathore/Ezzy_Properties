@@ -6,6 +6,7 @@ import 'package:property_app/pages/agent_seller/short_list_page/shortlist.dart';
 import 'package:property_app/pages/agent_seller/side_menu/Referals/refers.dart';
 import 'package:property_app/pages/intro.dart';
 import 'package:property_app/widgets/diloge.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../pages/agent_seller/side_menu/profile.dart';
 
@@ -69,7 +70,14 @@ class SideMenuController extends GetxController {
     {
       'title': 'Help',
       'icon': const Icon(Icons.live_help_outlined),
-      'onTap': () {}
+      'onTap': () async {
+        final call = Uri.parse('tel:+919830268966');
+        if (await canLaunchUrl(call)) {
+          launchUrl(call);
+        } else {
+          throw 'Could not launch $call';
+        }
+      },
     },
     {
       'title': 'Logout',
@@ -148,7 +156,14 @@ class SideMenuController extends GetxController {
     {
       'title': 'Help',
       'icon': const Icon(Icons.live_help_outlined),
-      'onTap': () {}
+      'onTap': () async {
+        final call = Uri.parse('tel:+919830268966');
+        if (await canLaunchUrl(call)) {
+          launchUrl(call);
+        } else {
+          throw 'Could not launch $call';
+        }
+      }
     },
     {
       'title': 'Logout',
@@ -160,24 +175,4 @@ class SideMenuController extends GetxController {
       },
     }
   ];
-
-  // void navigateTo(index, context) {
-  //   switch (index) {
-  //     case 0:
-  //       Get.to(const ProfileView());
-  //       break;
-  //     case 1:
-  //       MyDiloges().changePasswordDialog(context);
-  //       break;
-  //     case 2:
-  //       Get.to(() => const ReelPage());
-  //       break;
-  //     case 7:
-  //       Get.to(() => const ReferView());
-  //       break;
-  //     case 12:
-  //       // authController.logout();
-  //       Get.offAll(const IntroScreen());
-  //   }
-  // }
 }

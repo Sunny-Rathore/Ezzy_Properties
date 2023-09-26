@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:property_app/api_services/dealers_api/dealers_api.dart';
 import 'package:property_app/extensions/extension.dart';
 
 import '../../../../Utils/string_utils.dart';
-import '../../../../api_services/properties/property_list_api.dart';
 import '../../../../utils/color_utils.dart';
 import '../../../../widgets/image_widget.dart';
 import '../../../../widgets/text_widget.dart';
@@ -18,9 +18,9 @@ class VerifiedDealersView extends StatelessWidget {
   }
 
   _dealerItems() {
-    final properttyListController = Get.put(ProPertListApi());
+    final controller = Get.put(DealersApi());
     return FutureBuilder(
-      future: properttyListController.fetchApi(),
+      future: controller.fetchApi(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator().center();
@@ -75,15 +75,11 @@ class VerifiedDealersView extends StatelessWidget {
                   child: ImageWidget(
                       width: 80.w,
                       height: 80.w,
-                      url:
-                          'https://image.shutterstock.com/image-photo/young-handsome-man-beard-wearing-260nw-1768126784.jpg'
-                      // snapshot.data.data[index].imageUrl +
-                      //     snapshot.data.data[index].thumbnailImage,
-                      ))
+                      url: snapshot.data.data[index].userImage ?? ''))
               .center(),
           20.ph,
           TextWidget(
-            text: snapshot.data.data[index].propertyName ?? '',
+            text: snapshot.data.data[index].name ?? '',
             color: secondary_color,
             textAlign: TextAlign.left,
             size: 15.sp,
@@ -95,7 +91,7 @@ class VerifiedDealersView extends StatelessWidget {
             size: 10.sp,
           ),
           TextWidget(
-            text: rupees + snapshot.data.data[index].price,
+            text: rupees + snapshot.data.data[index].workerPrice,
             color: blacktext,
             size: 10.sp,
           ),

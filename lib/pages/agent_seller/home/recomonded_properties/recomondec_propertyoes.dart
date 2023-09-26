@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:property_app/api_services/recommended_properties/recommende_properties.dart';
 import 'package:property_app/extensions/extension.dart';
 import 'package:property_app/pages/agent_seller/home/componets/propeties_card.dart';
 import 'package:property_app/widgets/text_widget.dart';
-
-import '../../../../api_services/properties/property_list_api.dart';
 
 class RecomendedPropertiesView extends StatelessWidget {
   const RecomendedPropertiesView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final properttyListController = Get.put(ProPertListApi());
+    final controller = Get.put(RecommendePropertiesApi());
     return FutureBuilder(
-      future: properttyListController.fetchApi(),
+      future: controller.fetchApi(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator().center();

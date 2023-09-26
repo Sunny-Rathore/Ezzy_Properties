@@ -17,6 +17,7 @@ class SearchfiltterController extends GetxController {
   var type = RxString('1');
   var isLoading = RxBool(false);
   RxList cityList = [].obs;
+
   RxList addedCity = [].obs;
 
   //? facing Direction

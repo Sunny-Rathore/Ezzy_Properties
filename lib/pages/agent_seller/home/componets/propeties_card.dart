@@ -7,13 +7,13 @@ import 'package:property_app/api_services/properties/update_property.dart';
 import 'package:property_app/controller/propertyCard/property_card_controller.dart';
 import 'package:property_app/extensions/extension.dart';
 import 'package:property_app/pages/agent_seller/details_page/property_details.dart';
-import 'package:property_app/widgets/image_widget.dart';
 import 'package:property_app/widgets/shimmer.dart';
 
 import '../../../../Utils/color_utils.dart';
 import '../../../../Widgets/container_widget.dart';
 import '../../../../Widgets/text_widget.dart';
 import '../../../../widgets/diloge.dart';
+import '../../../../widgets/image_widget.dart';
 import '../../intrested_users/interested_users.dart';
 
 class PropertiesCard extends StatelessWidget {
