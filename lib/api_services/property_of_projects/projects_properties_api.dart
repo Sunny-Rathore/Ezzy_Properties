@@ -3,23 +3,28 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/state_manager.dart';
 import 'package:property_app/constant/constants.dart';
-import 'package:property_app/model/makers_model/makers_model.dart';
+import 'package:property_app/model/property_list_model.dart';
 
 import '../../services/api_error_handler.dart';
 
-class MakersApi extends GetxController {
+class ProjectsProPertyListApi extends GetxController {
   late String msg;
   var mydata;
-
-  Future<dynamic> fetchApi({type, area}) async {
+  Future<dynamic> fetchApi({
+    projectid,
+  }) async {
     try {
       var dio = Dio();
-      final response = await dio.get('${API_END_POINt}get_makers_byArea',
-          queryParameters: {'type': type, 'Area': area});
+      final response = await dio.get(
+          '${API_END_POINt}get_projects_wise_properties',
+          queryParameters: {
+            'project_id': projectid,
+          });
       if (response.statusCode == 200) {
-        mydata = MakersModel.fromJson(jsonDecode(response.data));
+        // print(response.data);
+        mydata = PropertyListModel.fromJson(jsonDecode(response.data));
       }
     } catch (e) {
       if (e is DioException) {

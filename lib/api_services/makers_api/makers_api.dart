@@ -5,21 +5,21 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:property_app/constant/constants.dart';
-import 'package:property_app/model/dealer_model/dealer_model.dart';
+import 'package:property_app/model/makers_model/makers_model.dart';
 
 import '../../../services/api_error_handler.dart';
 
-class DealersApi extends GetxController {
+class MakersApi extends GetxController {
   late String msg;
   var mydata;
 
-  Future<dynamic> fetchApi() async {
+  Future<dynamic> fetchApi({type, area}) async {
     try {
       var dio = Dio();
-      final response = await dio.get('${API_END_POINt}get_verify_dealers');
-
+      final response = await dio.get('${API_END_POINt}get_makers_byArea',
+          queryParameters: {'type': type, 'Area': area});
       if (response.statusCode == 200) {
-        mydata = DealersModel.fromJson(jsonDecode(response.data));
+        mydata = MakersModel.fromJson(jsonDecode(response.data));
       }
     } catch (e) {
       if (e is DioException) {

@@ -62,3 +62,4 @@ String architectImage2 = 'assets/Images/architect (2).png';
 String buildeImage = 'assets/Images/wall.png';
 String deginerImage = 'assets/Images/ui-design.png';
 String builingImage = 'assets/Images/skyscraper.png';
+String menuIcon = 'assets/Icons/menu-bar.png';

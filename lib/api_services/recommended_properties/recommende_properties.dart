@@ -19,7 +19,6 @@ class RecommendePropertiesApi extends GetxController {
       final response =
           await dio.get('${API_END_POINt}get_recommended_properties');
       if (response.statusCode == 200) {
-        print(response.data);
         mydata = Recommended_PropertyModel.fromJson(jsonDecode(response.data));
       }
     } catch (e) {

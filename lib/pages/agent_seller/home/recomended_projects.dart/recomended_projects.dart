@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:property_app/extensions/extension.dart';
 import 'package:property_app/widgets/projects_card.dart';
 
-import '../../../../api_services/properties/property_list_api.dart';
+import '../../../../api_services/projects/project_api.dart';
 import '../../../../widgets/text_widget.dart';
 
 class RecomndedProjectsView extends StatelessWidget {
@@ -12,9 +12,9 @@ class RecomndedProjectsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final properttyListController = Get.put(ProPertListApi());
+    final controller = Get.put(ProjectsApi());
     return FutureBuilder(
-      future: properttyListController.fetchApi(),
+      future: controller.fetchApi(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator().center();

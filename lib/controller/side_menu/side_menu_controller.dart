@@ -41,11 +41,6 @@ class SideMenuController extends GetxController {
       }
     },
     {
-      'title': 'Proposals/Bids On Properties',
-      'icon': const Icon(Icons.request_quote_outlined),
-      'onTap': () {}
-    },
-    {
       'title': 'Rating And Reviews',
       'icon': const Icon(Icons.reviews_outlined),
       'onTap': () {}
@@ -60,11 +55,6 @@ class SideMenuController extends GetxController {
     {
       'title': 'Share Feedback',
       'icon': const Icon(Icons.share),
-      'onTap': () {}
-    },
-    {
-      'title': 'Customer Service',
-      'icon': const Icon(Icons.design_services_outlined),
       'onTap': () {}
     },
     {
@@ -112,26 +102,6 @@ class SideMenuController extends GetxController {
       }
     },
     {
-      'title': 'Listing Properties',
-      'icon': const Icon(Icons.person_2_outlined),
-      'onTap': () {}
-    },
-    {
-      'title': 'View Responses',
-      'icon': const Icon(Icons.message_outlined),
-      'onTap': () {}
-    },
-    {
-      'title': 'Transactions',
-      'icon': const Icon(Icons.monetization_on_outlined),
-      'onTap': () {}
-    },
-    {
-      'title': 'Proposals/Bids On Properties',
-      'icon': const Icon(Icons.request_quote_outlined),
-      'onTap': () {}
-    },
-    {
       'title': 'Rating And Reviews',
       'icon': const Icon(Icons.reviews_outlined),
       'onTap': () {}
@@ -146,11 +116,6 @@ class SideMenuController extends GetxController {
     {
       'title': 'Share Feedback',
       'icon': const Icon(Icons.share),
-      'onTap': () {}
-    },
-    {
-      'title': 'Customer Service',
-      'icon': const Icon(Icons.design_services_outlined),
       'onTap': () {}
     },
     {

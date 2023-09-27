@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:property_app/api_services/makers_api/makers_api.dart';
 import 'package:property_app/extensions/extension.dart';
-import 'package:property_app/makers_api/makers_api.dart';
 import 'package:property_app/marketing/view_more.dart';
 import 'package:property_app/utils/color_utils.dart';
 import 'package:property_app/utils/string_utils.dart';

@@ -42,16 +42,28 @@ class PropertiesCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8.r),
-                  topRight: Radius.circular(8.r)),
-              child: ImageWidget(
-                width: double.infinity,
-                height: 100.w,
-                url: snapshot.data.data[index].imageUrl +
-                    snapshot.data.data[index].thumbnailImage,
-              )),
+          Stack(
+            alignment: Alignment.topRight,
+            children: [
+              ClipRRect(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8.r),
+                      topRight: Radius.circular(8.r)),
+                  child: ImageWidget(
+                    width: double.infinity,
+                    height: 100.w,
+                    url: snapshot.data.data[index].imageUrl +
+                        snapshot.data.data[index].thumbnailImage,
+                  )),
+              IconButton(
+                icon: const Icon(
+                  Icons.favorite_border_outlined,
+                  color: Colors.white,
+                ),
+                onPressed: () {},
+              )
+            ],
+          ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w),
             child: Column(

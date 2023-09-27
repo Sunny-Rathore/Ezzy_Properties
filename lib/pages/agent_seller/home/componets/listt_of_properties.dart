@@ -9,7 +9,7 @@ import 'package:property_app/controller/category_view_controller.dart';
 import 'package:property_app/extensions/extension.dart';
 import 'package:property_app/pages/agent_seller/home/componets/propeties_card.dart';
 import 'package:property_app/pages/agent_seller/home/recomonded_properties/recomondec_propertyoes.dart';
-import 'package:property_app/pages/view_all_property/view_all_propert.dart';
+import 'package:property_app/pages/view_all_property/view_all_property.dart';
 import 'package:property_app/widgets/container_widget.dart';
 import 'package:property_app/widgets/shimmer.dart';
 

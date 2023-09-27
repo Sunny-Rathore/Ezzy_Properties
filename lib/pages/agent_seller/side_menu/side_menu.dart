@@ -51,51 +51,38 @@ class SideMenuView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextWidget(
-                  text: 'User Details',
-                  size: 14.sp,
-                  color: grey_color,
-                ),
+                // TextWidget(
+                //   text: 'User Details',
+                //   size: 14.sp,
+                // ),
                 Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: authController.checkUser.value == 2
                         ? controller.sidemenuListBuyer
-                            .map((val) => Padding(
-                                  padding: EdgeInsets.only(bottom: 2.w),
-                                  child: SizedBox(
-                                    height: 35.w,
-                                    child: ListTile(
-                                      leading: val['icon'],
-                                      horizontalTitleGap: 0,
-                                      contentPadding: EdgeInsets.zero,
-                                      onTap: val['onTap'],
-                                      title: TextWidget(
-                                        text: val['title'],
-                                        //menuList[index],
-                                        size: 12.sp,
-                                        color: black_color,
-                                      ),
-                                    ),
+                            .map((val) => ListTile(
+                                  horizontalTitleGap: 0,
+                                  contentPadding: EdgeInsets.zero,
+                                  leading: val['icon'],
+                                  onTap: val['onTap'],
+                                  title: TextWidget(
+                                    text: val['title'],
+                                    //menuList[index],
+                                    size: 12.sp,
+                                    color: black_color,
                                   ),
                                 ))
                             .toList()
                         : controller.sidemenuList
-                            .map((val) => Padding(
-                                  padding: EdgeInsets.only(bottom: 2.w),
-                                  child: SizedBox(
-                                    height: 35.w,
-                                    child: ListTile(
-                                      leading: val['icon'],
-                                      horizontalTitleGap: 0,
-                                      contentPadding: EdgeInsets.zero,
-                                      onTap: val['onTap'],
-                                      title: TextWidget(
-                                        text: val['title'],
-                                        //menuList[index],
-                                        size: 12.sp,
-                                        color: black_color,
-                                      ),
-                                    ),
+                            .map((val) => ListTile(
+                                  leading: val['icon'],
+                                  horizontalTitleGap: 0,
+                                  contentPadding: EdgeInsets.zero,
+                                  onTap: val['onTap'],
+                                  title: TextWidget(
+                                    text: val['title'],
+                                    //menuList[index],
+                                    size: 12.sp,
+                                    color: black_color,
                                   ),
                                 ))
                             .toList()),

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:property_app/extensions/extension.dart';
+import 'package:property_app/pages/agent_seller/home/projects/projects_property.dart';
 
-import '../../../../api_services/properties/property_list_api.dart';
+import '../../../../api_services/projects/project_api.dart';
 import '../../../../utils/color_utils.dart';
 import '../../../../widgets/projects_card.dart';
 import '../../../../widgets/text_widget.dart';
@@ -18,9 +19,9 @@ class ProjectsView extends StatelessWidget {
   }
 
   _filteredProperty(useSelectionInidex) {
-    final properttyListController = Get.put(ProPertListApi());
+    final controller = Get.put(ProjectsApi());
     return FutureBuilder(
-      future: properttyListController.fetchApi(),
+      future: controller.fetchApi(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator().center();
@@ -68,7 +69,19 @@ class ProjectsView extends StatelessWidget {
                         itemCount: snapshot.data.data.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          return ProjectsCard(snapshot: snapshot, index: index);
+                          return GestureDetector(
+                            onTap: () {
+                              Get.to(() => ProjectsPropertiesView(
+                                    projectId:
+                                        snapshot.data.data[index].projectId,
+                                    userdelectedindex: useSelectionInidex,
+                                  ));
+                            },
+                            child: ProjectsCard(
+                              snapshot: snapshot,
+                              index: index,
+                            ),
+                          );
                         },
                       ),
                     ),

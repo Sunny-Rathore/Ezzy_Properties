@@ -5,12 +5,15 @@ import 'package:property_app/widgets/image_widget.dart';
 import 'package:property_app/widgets/text_widget.dart';
 
 import '../Utils/color_utils.dart';
-import '../Utils/string_utils.dart';
 
 class ProjectsCard extends StatelessWidget {
   final AsyncSnapshot snapshot;
   final int index;
-  const ProjectsCard({super.key, required this.snapshot, required this.index});
+  const ProjectsCard({
+    super.key,
+    required this.snapshot,
+    required this.index,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +33,11 @@ class ProjectsCard extends StatelessWidget {
               child: ImageWidget(
                 width: 80.w,
                 height: 80.w,
-                url: snapshot.data.data[index].imageUrl +
-                    snapshot.data.data[index].thumbnailImage,
+                url: snapshot.data.data[index].thumbnailImage,
               )).center(),
           20.ph,
           TextWidget(
-            text: snapshot.data.data[index].propertyName ?? '',
+            text: snapshot.data.data[index].projectName ?? '',
             color: secondary_color,
             textAlign: TextAlign.left,
             size: 15.sp,
@@ -43,11 +45,6 @@ class ProjectsCard extends StatelessWidget {
           ),
           TextWidget(
             text: snapshot.data.data[index].address ?? '',
-            color: blacktext,
-            size: 10.sp,
-          ),
-          TextWidget(
-            text: rupees + snapshot.data.data[index].price,
             color: blacktext,
             size: 10.sp,
           ),
