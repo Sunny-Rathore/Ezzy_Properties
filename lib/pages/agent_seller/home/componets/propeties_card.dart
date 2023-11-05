@@ -8,10 +8,12 @@ import 'package:property_app/controller/propertyCard/property_card_controller.da
 import 'package:property_app/extensions/extension.dart';
 import 'package:property_app/pages/agent_seller/details_page/property_details.dart';
 import 'package:property_app/widgets/shimmer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../Utils/color_utils.dart';
 import '../../../../Widgets/container_widget.dart';
 import '../../../../Widgets/text_widget.dart';
+import '../../../../api_services/fav_properties/fav_properties.dart';
 import '../../../../widgets/diloge.dart';
 import '../../../../widgets/image_widget.dart';
 import '../../intrested_users/interested_users.dart';
@@ -29,6 +31,7 @@ class PropertiesCard extends StatelessWidget {
   final AsyncSnapshot<dynamic> snapshot;
   @override
   Widget build(BuildContext context) {
+    final favcontroller = Get.put(FavPropertyApi());
     final intrestedUserApi = Get.put(IntrestedUserApi());
     final updatePropertyController = Get.put(UpdatePropertyApi());
     final cardController = Get.put(PropertyCardController());
@@ -55,12 +58,39 @@ class PropertiesCard extends StatelessWidget {
                     url: snapshot.data.data[index].imageUrl +
                         snapshot.data.data[index].thumbnailImage,
                   )),
-              IconButton(
-                icon: const Icon(
-                  Icons.favorite_border_outlined,
-                  color: Colors.white,
+              Visibility(
+                visible: userSelectionIndex == 2,
+                child: IconButton(
+                  icon: Icon(
+                    snapshot.data.data[index].favouriteStatus == "0"
+                        ? Icons.favorite_border_outlined
+                        : Icons.favorite,
+                    color: snapshot.data.data[index].favouriteStatus == "0"
+                        ? Colors.white
+                        : Colors.red,
+                  ),
+                  onPressed: () async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    var userid = prefs.getString('userId');
+                    if (userid!.isNotEmpty) {
+                      if (snapshot.data.data[index].favouriteStatus == "0") {
+                        var data = await favcontroller.fetchApi(
+                            properyid: snapshot.data.data[index].propertyId,
+                            status: '1');
+
+                        Fluttertoast.showToast(msg: data.message);
+                      } else {
+                        var data = await favcontroller.fetchApi(
+                            properyid: snapshot.data.data[index].propertyId,
+                            status: '0');
+                        Fluttertoast.showToast(msg: data.message);
+                      }
+                    } else {
+                      Fluttertoast.showToast(msg: 'You Have to login First');
+                    }
+                  },
                 ),
-                onPressed: () {},
               )
             ],
           ),

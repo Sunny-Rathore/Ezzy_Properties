@@ -13,7 +13,7 @@ class MakersApi extends GetxController {
   late String msg;
   var mydata;
 
-  Future<dynamic> fetchApi({type, area}) async {
+  Future<dynamic> fetchApi({type, area, city}) async {
     try {
       var dio = Dio();
       final response = await dio.get('${API_END_POINt}get_makers_byArea',

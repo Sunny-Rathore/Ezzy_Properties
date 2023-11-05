@@ -7,10 +7,24 @@ class ImageWidget extends StatelessWidget {
   final String url;
   final double? height;
   final double? width;
-  const ImageWidget({super.key, required this.url, this.height, this.width});
+  final bool? isCircle;
+  const ImageWidget(
+      {super.key,
+      required this.url,
+      this.height,
+      this.width,
+      this.isCircle = false});
 
   @override
   Widget build(BuildContext context) {
+    if (isCircle!) {
+      return ClipOval(child: buildImage());
+    } else {
+      return buildImage();
+    }
+  }
+
+  CachedNetworkImage buildImage() {
     return CachedNetworkImage(
       height: height,
       width: width,

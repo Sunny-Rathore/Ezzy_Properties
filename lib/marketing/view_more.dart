@@ -5,9 +5,9 @@ import 'package:property_app/extensions/extension.dart';
 import 'package:property_app/marketing/markenting_intrest.dart';
 import 'package:property_app/utils/color_utils.dart';
 import 'package:property_app/widgets/button.dart';
-import 'package:property_app/widgets/image_widget.dart';
 
 import '../utils/string_utils.dart';
+import '../widgets/image_widget.dart';
 import '../widgets/text_widget.dart';
 
 class ViewMoreView extends StatelessWidget {
@@ -43,28 +43,29 @@ class ViewMoreView extends StatelessWidget {
         SliverToBoxAdapter(
           child: _aboutUserView(),
         ),
-        SliverList(
-            delegate: SliverChildBuilderDelegate(childCount: reviewList.length,
-//snapshot.data.data[index].reviews.length,
-                (context, listindex) {
-          return ListTile(
-            // horizontalTitleGap: 20,
-            leading: ImageWidget(
-              height: 50.w,
-              width: 50.w,
-              url: snapshot.data.data[index].reviews[listindex],
-            ),
+        // SliverList(
+        //     delegate: SliverChildBuilderDelegate(
+        //         childCount: snapshot.data.data[index].reviews.length,
+        //         (context, listindex) {
+        //   return
+        // ListTile(
+        //     // horizontalTitleGap: 20,
+        //     leading: ImageWidget(
+        //       height: 50.w,
+        //       width: 50.w,
+        //       url: snapshot.data.data[index].reviews[listindex],
+        //     ),
 
-            title: TextWidget(
-              text: snapshot.data.data[index].reviews[listindex],
-              size: 15.sp,
-            ),
-            subtitle: TextWidget(
-              text: "innovative architect with a deep love",
-              size: 12.sp,
-            ),
-          );
-        }))
+        //     title: TextWidget(
+        //       text: snapshot.data.data[index].reviews[listindex],
+        //       size: 15.sp,
+        //     ),
+        //     subtitle: TextWidget(
+        //       text: "innovative architect with a deep love",
+        //       size: 12.sp,
+        //     ),
+        //   );
+        // }))
       ],
     ));
   }
@@ -95,69 +96,99 @@ class ViewMoreView extends StatelessWidget {
           5.ph,
           TextWidget(size: 12.sp, text: snapshot.data.data[index].description),
           20.ph,
+          TextWidget(size: 20.sp, text: 'Previous Work'),
+          20.ph,
           SizedBox(
               height: 150,
               child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: previuceWork
-                    .map((e) => WorkCard(
-                        title: e['title'],
-                        image: e['image'],
-                        onTap: e['onTap']))
-                    .toList(),
-              )),
+                  scrollDirection: Axis.horizontal,
+                  children: List.generate(
+                      snapshot.data.data[index].workImages.length,
+                      (workIndex) => WorkCard(
+                          title: '',
+                          image:
+                              snapshot.data.data[index].workImages[workIndex],
+                          onTap: () {})))),
           20.ph,
           Button(
               textcolor: Colors.white,
               color: secondary_color,
               text: 'Enquiry',
               ontap: () {
-                Get.to(() => const MarketingIntrestView());
+                Get.to(() => MarketingIntrestView(
+                      makerId: snapshot.data.data[index].userId,
+                    ));
               }).center(),
           20.ph,
           TextWidget(
             text: "Reviews",
             size: 20.sp,
             weight: FontWeight.bold,
-          )
+          ),
+          ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: snapshot.data.data[index].reviews.length,
+            itemBuilder: (BuildContext context, int reviewsindex) {
+              return ListTile(
+                // horizontalTitleGap: 20,
+                leading: ImageWidget(
+                  height: 50.w,
+                  width: 50.w,
+                  url: snapshot
+                      .data.data[index].reviews[reviewsindex].reviewerProfile,
+                ),
+
+                title: TextWidget(
+                  text: snapshot.data.data[index].reviews[reviewsindex].reviews,
+                  size: 15.sp,
+                ),
+                subtitle: TextWidget(
+                  text:
+                      snapshot.data.data[index].reviews[reviewsindex].comments,
+                  size: 12.sp,
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
   }
 }
 
-List previuceWork = [
-  {
-    'title': "Work",
-    'image':
-        "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/malika%2FImage-1.png?alt=media&token=245741de-7966-4f5b-805f-6dd8e5dbea80",
-    'onTap': () {},
-  },
-  {
-    'title': "Work",
-    'image':
-        "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/malika%2FImage-1.png?alt=media&token=245741de-7966-4f5b-805f-6dd8e5dbea80",
-    'onTap': () {},
-  },
-  {
-    'title': "Work",
-    'image':
-        "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/malika%2FImage-1.png?alt=media&token=245741de-7966-4f5b-805f-6dd8e5dbea80",
-    'onTap': () {},
-  },
-  {
-    'title': "Work",
-    'image':
-        "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/malika%2FImage-1.png?alt=media&token=245741de-7966-4f5b-805f-6dd8e5dbea80",
-    'onTap': () {},
-  },
-  {
-    'title': "Work",
-    'image':
-        "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/malika%2FImage-1.png?alt=media&token=245741de-7966-4f5b-805f-6dd8e5dbea80",
-    'onTap': () {},
-  },
-];
+// List previuceWork = [
+//   {
+//     'title': "Work",
+//     'image':
+//         "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/malika%2FImage-1.png?alt=media&token=245741de-7966-4f5b-805f-6dd8e5dbea80",
+//     'onTap': () {},
+//   },
+//   {
+//     'title': "Work",
+//     'image':
+//         "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/malika%2FImage-1.png?alt=media&token=245741de-7966-4f5b-805f-6dd8e5dbea80",
+//     'onTap': () {},
+//   },
+//   {
+//     'title': "Work",
+//     'image':
+//         "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/malika%2FImage-1.png?alt=media&token=245741de-7966-4f5b-805f-6dd8e5dbea80",
+//     'onTap': () {},
+//   },
+//   {
+//     'title': "Work",
+//     'image':
+//         "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/malika%2FImage-1.png?alt=media&token=245741de-7966-4f5b-805f-6dd8e5dbea80",
+//     'onTap': () {},
+//   },
+//   {
+//     'title': "Work",
+//     'image':
+//         "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/malika%2FImage-1.png?alt=media&token=245741de-7966-4f5b-805f-6dd8e5dbea80",
+//     'onTap': () {},
+//   },
+// ];
 
 class WorkCard extends StatelessWidget {
   final String title;

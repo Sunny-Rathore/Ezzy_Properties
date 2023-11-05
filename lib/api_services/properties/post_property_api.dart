@@ -29,6 +29,7 @@ class PostPropertyApi extends GetxController {
   var mycity = ''.obs;
   RxString selectedCityId = ''.obs;
   RxString selectedStateId = ''.obs;
+  RxString selectedAreaId = ''.obs;
   RxString numOfBedrooms = '1'.obs;
   RxString numOfBathRooms = '1'.obs;
   RxString ageOfProperty = 'New Construction'.obs;
@@ -37,6 +38,10 @@ class PostPropertyApi extends GetxController {
   RxString constructionStatus = 'Ready To Move'.obs;
 
   RxString areaTypeId = 'SQFT'.obs;
+
+  void onCityAreaChanged(String val) {
+    selectedAreaId.value = val;
+  }
 
   void onAreaChanged(String val) {
     areaTypeId.value = val;

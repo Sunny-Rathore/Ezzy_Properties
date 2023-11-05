@@ -3,38 +3,32 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:property_app/constant/constants.dart';
 import 'package:property_app/model/property_list_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../services/api_error_handler.dart';
+import '../../../services/api_error_handler.dart';
 
-class ProPertListApi extends GetxController {
-  List allPropertiesList = [].obs;
+class RecommendePropertiesApi extends GetxController {
   late String msg;
   var mydata;
 
-  Future<dynamic> fetchApi(
-      {propertyid, address, propertytypeid, maxprice, minPrice}) async {
+  Future<dynamic> fetchApi() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var userid = prefs.getString('userId');
     try {
       var dio = Dio();
       final response = await dio
-          .get('${API_END_POINt}fetch_allproperties', queryParameters: {
-        'property_id': propertyid,
-        'address': address,
-        'property_type_id': propertytypeid,
-        'min_price': minPrice,
-        'max_price': maxprice,
-        'use_id': userid,
+          .get('${API_END_POINt}get_recommended_properties', queryParameters: {
+        'login_id': userid,
       });
       if (response.statusCode == 200) {
         mydata = PropertyListModel.fromJson(jsonDecode(response.data));
       }
     } catch (e) {
+      debugPrint('Projects Properties ERROR: $e');
       if (e is DioException) {
         msg = ApiErrorHandler.handleDioException(e);
       } else {
@@ -49,8 +43,6 @@ class ProPertListApi extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    var allProperty = await fetchApi();
-    allPropertiesList.addAll(allProperty.data);
-    
+    await fetchApi();
   }
 }

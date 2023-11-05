@@ -18,6 +18,7 @@ class ProjectsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: 5.w),
       margin: EdgeInsets.only(right: 10.w, bottom: 20.w),
       width: 140.w,
       decoration: BoxDecoration(
@@ -39,14 +40,15 @@ class ProjectsCard extends StatelessWidget {
           TextWidget(
             text: snapshot.data.data[index].projectName ?? '',
             color: secondary_color,
-            textAlign: TextAlign.left,
+            textAlign: TextAlign.center,
             size: 15.sp,
             weight: FontWeight.w500,
-          ),
+          ).center(),
           TextWidget(
             text: snapshot.data.data[index].address ?? '',
             color: blacktext,
             size: 10.sp,
+            textAlign: TextAlign.center,
           ),
         ],
       ),

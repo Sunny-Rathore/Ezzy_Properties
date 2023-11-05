@@ -1,11 +1,11 @@
-class PropertyListModel {
+class GetFavoritePropertyModel {
   int? status;
   String? message;
   List<Data>? data;
 
-  PropertyListModel({this.status, this.message, this.data});
+  GetFavoritePropertyModel({this.status, this.message, this.data});
 
-  PropertyListModel.fromJson(Map<String, dynamic> json) {
+  GetFavoritePropertyModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
     if (json['data'] != null) {

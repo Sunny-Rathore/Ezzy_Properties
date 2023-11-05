@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:property_app/api_services/properties/post_property_api.dart';
 import 'package:property_app/extensions/extension.dart';
 import 'package:property_app/marketing/makers_list.dart';
 import 'package:property_app/utils/color_utils.dart';
@@ -8,11 +9,14 @@ import 'package:property_app/widgets/appbar.dart';
 import 'package:property_app/widgets/button.dart';
 import 'package:property_app/widgets/city_drop_down.dart';
 
+import '../widgets/area_dropdown.dart';
+
 class SearchMakers extends StatelessWidget {
   const SearchMakers({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(PostPropertyApi());
     return Scaffold(
       appBar: appbar("", context),
       body: ListView(
@@ -28,7 +32,9 @@ class SearchMakers extends StatelessWidget {
           50.ph,
           const CityDropdown(),
           20.ph,
-          const CityDropdown(),
+          Obx(
+            () => AreaDropdown(cityId: controller.selectedCityId.value),
+          ),
           20.ph,
           Button(
             text: "Submit",

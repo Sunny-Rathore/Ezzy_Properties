@@ -28,10 +28,6 @@ class BottomNavView extends StatelessWidget {
       ),
       const SubscriptionsPage(),
       const TransactionDetailsView(),
-      // TextWidget(
-      //   text: '4',
-      //   color: secondary_color,
-      // ),
     ];
     TextStyle labelStyle =
         TextStyle(color: blacktext.withOpacity(0.5), fontSize: 14.sp);

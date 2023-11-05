@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:property_app/api_services/dealers_api/dealers_api.dart';
 import 'package:property_app/extensions/extension.dart';
+import 'package:property_app/pages/agent_seller/home/verified_dealers/dealers_details.dart';
 
 import '../../../../Utils/string_utils.dart';
 import '../../../../utils/color_utils.dart';
@@ -61,41 +62,48 @@ class VerifiedDealersView extends StatelessWidget {
   }
 
   _dealersCard(AsyncSnapshot snapshot, {required int index}) {
-    return Container(
-      margin: EdgeInsets.only(right: 10.w, bottom: 20.w),
-      width: 140.w,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.r),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ClipOval(
-                  child: ImageWidget(
-                      width: 80.w,
-                      height: 80.w,
-                      url: snapshot.data.data[index].userImage ?? ''))
-              .center(),
-          20.ph,
-          TextWidget(
-            text: snapshot.data.data[index].name ?? '',
-            color: secondary_color,
-            textAlign: TextAlign.left,
-            size: 15.sp,
-            weight: FontWeight.w500,
-          ),
-          TextWidget(
-            text: snapshot.data.data[index].address ?? '',
-            color: blacktext,
-            size: 10.sp,
-          ),
-          TextWidget(
-            text: rupees + snapshot.data.data[index].workerPrice,
-            color: blacktext,
-            size: 10.sp,
-          ),
-        ],
+    return GestureDetector(
+      onTap: () {
+        Get.to(() => const DealersDetailsView());
+      },
+      child: Container(
+        margin: EdgeInsets.only(right: 10.w, bottom: 20.w),
+        width: 140.w,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ClipOval(
+                    child: ImageWidget(
+                        width: 80.w,
+                        height: 80.w,
+                        url: snapshot.data.data[index].userImage ?? ''))
+                .center(),
+            20.ph,
+            TextWidget(
+              text: snapshot.data.data[index].name ?? '',
+              color: secondary_color,
+              textAlign: TextAlign.center,
+              size: 15.sp,
+              weight: FontWeight.w500,
+            ),
+            TextWidget(
+              text: snapshot.data.data[index].address ?? '',
+              color: blacktext,
+              size: 10.sp,
+              textAlign: TextAlign.center,
+            ),
+            TextWidget(
+              text: rupees + snapshot.data.data[index].workerPrice,
+              color: blacktext,
+              size: 10.sp,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -71,6 +71,8 @@ class ProjectsView extends StatelessWidget {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
+                              print(
+                                  "projectId:${snapshot.data.data[index].projectId}");
                               Get.to(() => ProjectsPropertiesView(
                                     projectId:
                                         snapshot.data.data[index].projectId,

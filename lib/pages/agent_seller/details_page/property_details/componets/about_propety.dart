@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:property_app/controller/about_property_controller/about_propety_controller.dart';
 import 'package:property_app/extensions/extension.dart';
@@ -9,7 +8,6 @@ import 'package:property_app/widgets/image_widget.dart';
 import 'package:property_app/widgets/shimmer.dart';
 
 import '../../../../../Utils/color_utils.dart';
-import '../../../../../Utils/string_utils.dart';
 import '../../../../../Widgets/text_widget.dart';
 import '../../../../../api_services/properties/property_list_api.dart';
 import '../../../../../widgets/diloge.dart';
@@ -100,38 +98,33 @@ class AboutProperty extends StatelessWidget {
 
                 Visibility(
                   visible: snapshot.data.data[0].propertyKind != 'PLot/Land',
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: List.generate(
-                        4,
+                  child:
+                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children:
+                     List.generate(
+                        snapshot.data.data[0].amenities.length,
                         (index) => Column(
                               children: [
-                                CircleAvatar(
-                                  radius: 30.r,
-                                  backgroundColor: grey_color.withOpacity(0.1),
-                                  child:
-                                      SvgPicture.asset(pDetailsIconList[index]),
+                                ClipOval(
+                                  child: ImageWidget(
+                                      width: 50.w,
+                                      height: 50.w,
+                                      url: snapshot.data.data[0].imageUrl +
+                                          snapshot.data.data[0].amenities[index]
+                                              .icon),
                                 ),
                                 TextWidget(
                                   size: 10.sp,
-                                  text: index == 0
-                                      ? snapshot.data.data[0].noOfBedrooms +
-                                          pDetailsNameList[index]
-                                      : index == 1
-                                          ? snapshot
-                                                  .data.data[0].noOfBathrooms +
-                                              pDetailsNameList[index]
-                                          : index == 2
-                                              ? snapshot.data.data[0].area +
-                                                  pDetailsNameList[index]
-                                              : snapshot.data.data[0].parking +
-                                                  pDetailsNameList[index],
+                                  text: snapshot
+                                      .data.data[0].amenities[index].name,
                                   color: secondary_color,
                                 )
                               ],
                             )),
                   ),
                 ),
+               
                 30.ph,
                 TextWidget(
                   text: 'Description',
@@ -143,21 +136,14 @@ class AboutProperty extends StatelessWidget {
                 Obx(
                   () => Text(
                     snapshot.data.data[0].description ?? '',
-                    maxLines: aboutPropertyController.isExpanded.value
-                        ? null
-                        : 2, // Show only 2 lines when not expanded
+                    maxLines:
+                        aboutPropertyController.isExpanded.value ? null : 2,
                     overflow: aboutPropertyController.isExpanded.value
                         ? TextOverflow.visible
                         : TextOverflow.ellipsis,
                   ),
                 ),
 
-                // TextWidget(
-                //   text: snapshot.data.data[0].description,
-                //   size: 12.sp,
-                //   color: blacktext,
-                //   textAlign: TextAlign.left,
-                // ),
                 19.ph,
                 GestureDetector(
                   onTap: () {
@@ -166,7 +152,6 @@ class AboutProperty extends StatelessWidget {
                     } else {
                       aboutPropertyController.onExpand(true);
                     }
-                    //Get.to(() => const DetailsPage());
                   },
                   child: Container(
                       alignment: Alignment.center,

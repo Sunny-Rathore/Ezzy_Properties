@@ -1,11 +1,11 @@
-class PropertyListModel {
+class DealersWisePropertiesModel {
   int? status;
   String? message;
   List<Data>? data;
 
-  PropertyListModel({this.status, this.message, this.data});
+  DealersWisePropertiesModel({this.status, this.message, this.data});
 
-  PropertyListModel.fromJson(Map<String, dynamic> json) {
+  DealersWisePropertiesModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
     if (json['data'] != null) {
@@ -29,6 +29,9 @@ class PropertyListModel {
 
 class Data {
   String? favouriteStatus;
+  String? dealerName;
+  String? dealerAddress;
+  String? dealerProfile;
   String? propertyId;
   String? projectId;
   String? propertyUniqueId;
@@ -74,6 +77,9 @@ class Data {
 
   Data(
       {this.favouriteStatus,
+      this.dealerName,
+      this.dealerAddress,
+      this.dealerProfile,
       this.propertyId,
       this.projectId,
       this.propertyUniqueId,
@@ -119,6 +125,9 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     favouriteStatus = json['favourite_status'];
+    dealerName = json['dealer_name'];
+    dealerAddress = json['dealer_address'];
+    dealerProfile = json['dealer_profile'];
     propertyId = json['property_id'];
     projectId = json['project_id'];
     propertyUniqueId = json['property_unique_id'];
@@ -181,6 +190,9 @@ class Data {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['favourite_status'] = favouriteStatus;
+    data['dealer_name'] = dealerName;
+    data['dealer_address'] = dealerAddress;
+    data['dealer_profile'] = dealerProfile;
     data['property_id'] = propertyId;
     data['project_id'] = projectId;
     data['property_unique_id'] = propertyUniqueId;

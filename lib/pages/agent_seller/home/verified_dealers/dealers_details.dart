@@ -1,48 +1,128 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:property_app/Widgets/container_widget.dart';
-import 'package:property_app/Widgets/text_widget.dart';
-import 'package:property_app/api_services/intrested_user_api.dart';
-import 'package:property_app/api_services/properties/update_property.dart';
-import 'package:property_app/controller/propertyCard/property_card_controller.dart';
+import 'package:property_app/api_services/dealer_wise_properties/dealer_wiese_properties_api.dart';
 import 'package:property_app/extensions/extension.dart';
-import 'package:property_app/pages/agent_seller/intrested_users/interested_users.dart';
-import 'package:property_app/widgets/diloge.dart';
+import 'package:property_app/widgets/appbar.dart';
 import 'package:property_app/widgets/image_widget.dart';
-import 'package:property_app/widgets/shimmer.dart';
+import 'package:property_app/widgets/text_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../Utils/color_utils.dart';
-import '../api_services/fav_properties/fav_properties.dart';
-import '../pages/agent_seller/details_page/property_details.dart';
+import '../../../../Utils/color_utils.dart';
+import '../../../../Widgets/container_widget.dart';
+import '../../../../api_services/fav_properties/fav_properties.dart';
+import '../../../../api_services/properties/update_property.dart';
+import '../../../../controller/propertyCard/property_card_controller.dart';
+import '../../../../widgets/diloge.dart';
+import '../../details_page/property_details.dart';
 
-class AllPropertyCard extends StatelessWidget {
-  final int userdelectedindex;
-  final String propertyTypeId;
-
-  final AsyncSnapshot snapshot;
-  final int index;
-  const AllPropertyCard(
-      {super.key,
-      required this.userdelectedindex,
-      required this.snapshot,
-      required this.index,
-      required this.propertyTypeId});
+class DealersDetailsView extends StatelessWidget {
+  const DealersDetailsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final intrestedUserApi = Get.put(IntrestedUserApi());
+    final controller = Get.put(DealerWisePropertyApi());
+    return Scaffold(
+        appBar: appbar("", context),
+        body: Obx(
+          () => controller.isLoading.value
+              ? const CircularProgressIndicator().center()
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Obx(
+                          () => _bannerview(controller.apiData),
+                        ),
+                        20.ph,
+                        ImageWidget(
+                                width: 100,
+                                height: 100,
+                                isCircle: true,
+                                url:
+                                    'https://ezzyproperties.com/${controller.apiData[0].dealerProfile}')
+                            .center(),
+                        20.ph,
+                        TextWidget(
+                          text: controller.apiData[0].dealerName,
+                        ),
+                        5.ph,
+                        TextWidget(
+                          text: controller.apiData[0].dealerAddress,
+                          size: 12.sp,
+                        ),
+                        5.ph,
+                        TextWidget(
+                          text: 'Description',
+                          size: 12.sp,
+                        ),
+                        TextWidget(
+                          text: controller.apiData[0].description,
+                          size: 12.sp,
+                        ),
+                        20.ph,
+                        const TextWidget(
+                          text: 'Properties List',
+                        ),
+                        20.ph,
+                        ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: 5,
+                          itemBuilder: (BuildContext context, int index) {
+                            return _card(controller.apiData, index);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+        ));
+  }
+
+  Widget _bannerview(List apiData) {
+    return CarouselSlider.builder(
+      itemCount: apiData.length,
+      itemBuilder: (context, index, reelIndex) {
+        return ImageWidget(
+          url: apiData[index].imageUrl + apiData[index].thumbnailImage,
+          height: 100.w,
+          width: double.infinity,
+        );
+      },
+      options: CarouselOptions(
+        height: 200.w,
+
+        viewportFraction: 1,
+        initialPage: 0,
+        enableInfiniteScroll: true,
+        reverse: false,
+        autoPlay: true,
+        autoPlayInterval: const Duration(seconds: 3),
+        autoPlayAnimationDuration: const Duration(milliseconds: 800),
+        autoPlayCurve: Curves.fastOutSlowIn,
+        enlargeCenterPage: false,
+        // onPageChanged: (index, _) {
+        //   slidercontroller.onpageScroll(index);
+        // },
+        scrollDirection: Axis.horizontal,
+      ),
+    );
+  }
+
+  Widget _card(List apiData, index) {
     final favcontroller = Get.put(FavPropertyApi());
     final updatePropertyController = Get.put(UpdatePropertyApi());
     final cardController = Get.put(PropertyCardController());
-    return 
-    Padding(
+    return Padding(
       padding: EdgeInsets.only(bottom: 10.w),
       child: ContainerWidget(
         borderadius: 10.r,
-        height: userdelectedindex == 2 ? 170.w : 230.w,
+        height: 170.w,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -58,37 +138,33 @@ class AllPropertyCard extends StatelessWidget {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(10.r),
                         child: ImageWidget(
-                          height: userdelectedindex == 2 ? 100.w : 150.w,
+                          height: 100.w,
                           width: 150,
-                          url: snapshot.data.data[index].imageUrl +
-                              snapshot.data.data[index].thumbnailImage,
+                          url: apiData[index].imageUrl +
+                              apiData[index].thumbnailImage,
                         ),
                       ),
                       IconButton(
                         icon: Icon(
-                          snapshot.data.data[index].favouriteStatus == "0"
+                          apiData[index].favouriteStatus == "0"
                               ? Icons.favorite_border_outlined
                               : Icons.favorite,
-                          color:
-                              snapshot.data.data[index].favouriteStatus == "0"
-                                  ? Colors.white
-                                  : Colors.red,
+                          color: apiData[index].favouriteStatus == "0"
+                              ? Colors.white
+                              : Colors.red,
                         ),
                         onPressed: () async {
                           SharedPreferences prefs =
                               await SharedPreferences.getInstance();
                           var userid = prefs.getString('userId');
                           if (userid!.isNotEmpty) {
-                            if (snapshot.data.data[index].favouriteStatus ==
-                                "0") {
+                            if (apiData[index].favouriteStatus == "0") {
                               await favcontroller.fetchApi(
-                                  properyid:
-                                      snapshot.data.data[index].propertyId,
+                                  properyid: apiData[index].propertyId,
                                   status: '1');
                             } else {
                               await favcontroller.fetchApi(
-                                  properyid:
-                                      snapshot.data.data[index].propertyId,
+                                  properyid: apiData[index].propertyId,
                                   status: '0');
                             }
                           } else {
@@ -107,7 +183,7 @@ class AllPropertyCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           TextWidget(
-                            text: snapshot.data.data[index].propertyName ?? '',
+                            text: apiData[index].propertyName ?? '',
                             color: secondary_color,
                             textAlign: TextAlign.left,
                             size: 18.sp,
@@ -122,7 +198,7 @@ class AllPropertyCard extends StatelessWidget {
                                 size: 18.w,
                               ),
                               TextWidget(
-                                text: snapshot.data.data[index].avgRating ?? '',
+                                text: apiData[index].avgRating ?? '',
                                 color: secondary_color,
                                 textAlign: TextAlign.left,
                                 size: 12.sp,
@@ -131,81 +207,6 @@ class AllPropertyCard extends StatelessWidget {
                             ],
                           ),
                         ],
-                      ),
-                      Visibility(
-                        visible: userdelectedindex != 2,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextWidget(
-                              text: 'Users',
-                              color: secondary_color,
-                              size: 12.sp,
-                            ),
-                            7.ph,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                FutureBuilder(
-                                    future: intrestedUserApi.fetchApi(
-                                        propertyid: snapshot
-                                            .data.data[index].propertyId),
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot usersnapshot) {
-                                      if (usersnapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return lodingUserUI();
-                                      } else if (usersnapshot.hasError) {
-                                        return TextWidget(
-                                            text:
-                                                usersnapshot.error.toString());
-                                      } else if (usersnapshot.hasData) {
-                                        return Row(
-                                          children: List.generate(
-                                              usersnapshot.data.data.length > 2
-                                                  ? 2
-                                                  : usersnapshot
-                                                      .data.data.length,
-                                              (uIndex) => Padding(
-                                                    padding: EdgeInsets.only(
-                                                        right: 5.w),
-                                                    child: CircleAvatar(
-                                                      backgroundImage:
-                                                          NetworkImage(
-                                                        usersnapshot
-                                                            .data
-                                                            .data[uIndex]
-                                                            .interestUserImage,
-                                                      ),
-                                                    ),
-                                                  )),
-                                        );
-                                      }
-                                      return lodingUserUI();
-                                    }),
-                                GestureDetector(
-                                  onTap: () {
-                                    Get.to(() => InterestedUsersPage(
-                                          imageUrl: snapshot
-                                                  .data.data[index].imageUrl +
-                                              snapshot.data.data[index]
-                                                  .thumbnailImage,
-                                          propertyid: snapshot.data.data[index]
-                                                  .propertyId ??
-                                              '',
-                                        ));
-                                  },
-                                  child: TextWidget(
-                                    text: 'View All',
-                                    color: secondary_color,
-                                    textAlign: TextAlign.left,
-                                    size: 12.sp,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
                       ),
                       10.ph,
                       Column(
@@ -224,8 +225,8 @@ class AllPropertyCard extends StatelessWidget {
                                 5.pw,
                                 TextWidget(
                                   text: boxindex == 0
-                                      ? snapshot.data.data[index].address ?? ''
-                                      : snapshot.data.data[index].price ?? '',
+                                      ? apiData[index].address ?? ''
+                                      : apiData[index].price ?? '',
                                   color: blacktext,
                                   size: 10.sp,
                                 )
@@ -239,18 +240,16 @@ class AllPropertyCard extends StatelessWidget {
                 ],
               ),
               // userdelectedindex == 2 ? 50.ph : 0.ph,
-              Obx(() => cardController.userid.value !=
-                      snapshot.data.data[index].userId
+              Obx(() => cardController.userid.value != apiData[index].userId
                   ? Padding(
                       padding: EdgeInsets.only(top: 20.w),
-                      child: viewDetailsButton(
-                          snapshot.data.data[index].propertyId),
+                      child: viewDetailsButton(apiData[index].propertyId),
                     )
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        viewDetailsButton(snapshot.data.data[index].propertyId),
-                        snapshot.data.data[index].status == 'Sold'
+                        viewDetailsButton(apiData[index].propertyId),
+                        apiData[index].status == 'Sold'
                             ? ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                     minimumSize: Size(20, 5.w),
@@ -258,8 +257,8 @@ class AllPropertyCard extends StatelessWidget {
                                 onPressed: () async {
                                   var msg =
                                       await updatePropertyController.fetchApi(
-                                          propertyId: snapshot
-                                              .data.data[index].propertyId);
+                                          propertyId:
+                                              apiData[index].propertyId);
                                   Fluttertoast.showToast(msg: msg);
                                 },
                                 child: TextWidget(
@@ -274,8 +273,8 @@ class AllPropertyCard extends StatelessWidget {
                                 onPressed: () async {
                                   var msg =
                                       await updatePropertyController.fetchApi(
-                                          propertyId: snapshot
-                                              .data.data[index].propertyId);
+                                          propertyId:
+                                              apiData[index].propertyId);
                                   Fluttertoast.showToast(msg: msg);
                                 },
                                 child: TextWidget(
@@ -290,28 +289,13 @@ class AllPropertyCard extends StatelessWidget {
         ),
       ),
     );
- 
- 
-  }
-
-  Row lodingUserUI() {
-    return Row(
-      children: List.generate(
-          2,
-          (uIndex) => Padding(
-                padding: EdgeInsets.only(right: 5.w),
-                child: const LoadingEffect(
-                  child: CircleAvatar(),
-                ),
-              )),
-    );
   }
 
   GestureDetector viewDetailsButton(propertyId) {
     return GestureDetector(
       onTap: () {
         Get.to(() => PropertyDetailView(
-              userSelectionIndex: userdelectedindex,
+              userSelectionIndex: 2,
               propertyId: propertyId,
             ));
       },
@@ -348,6 +332,4 @@ class AllPropertyCard extends StatelessWidget {
       ),
     );
   }
-
-
 }

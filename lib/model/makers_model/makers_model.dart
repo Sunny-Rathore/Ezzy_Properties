@@ -35,8 +35,7 @@ class Data {
   String? price;
   String? description;
   List<String>? workImages;
-  List<String>? reviews;
-  List<String>? comments;
+  List<Reviews>? reviews;
 
   Data(
       {this.userId,
@@ -46,8 +45,7 @@ class Data {
       this.price,
       this.description,
       this.workImages,
-      this.reviews,
-      this.comments});
+      this.reviews});
 
   Data.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
@@ -57,8 +55,12 @@ class Data {
     price = json['price'];
     description = json['description'];
     workImages = json['work_images'].cast<String>();
-    reviews = json['reviews'].cast<String>();
-    comments = json['comments'].cast<String>();
+    if (json['reviews'] != null) {
+      reviews = <Reviews>[];
+      json['reviews'].forEach((v) {
+        reviews!.add(Reviews.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -70,8 +72,31 @@ class Data {
     data['price'] = price;
     data['description'] = description;
     data['work_images'] = workImages;
+    if (reviews != null) {
+      data['reviews'] = reviews!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Reviews {
+  String? reviews;
+  String? comments;
+  String? reviewerProfile;
+
+  Reviews({this.reviews, this.comments, this.reviewerProfile});
+
+  Reviews.fromJson(Map<String, dynamic> json) {
+    reviews = json['reviews'];
+    comments = json['comments'];
+    reviewerProfile = json['reviewer_profile'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['reviews'] = reviews;
     data['comments'] = comments;
+    data['reviewer_profile'] = reviewerProfile;
     return data;
   }
 }

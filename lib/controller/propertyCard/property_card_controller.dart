@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PropertyCardController extends GetxController {
+  var isFav = RxBool(false);
   @override
   void onInit() {
     super.onInit();

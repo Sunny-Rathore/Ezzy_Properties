@@ -8,7 +8,7 @@ import 'package:property_app/api_services/properties/property_list_api.dart';
 import 'package:property_app/controller/category_view_controller.dart';
 import 'package:property_app/extensions/extension.dart';
 import 'package:property_app/pages/agent_seller/home/componets/propeties_card.dart';
-import 'package:property_app/pages/agent_seller/home/recomonded_properties/recomondec_propertyoes.dart';
+import 'package:property_app/pages/agent_seller/home/recomonded_properties/recomondec_properties.dart';
 import 'package:property_app/pages/view_all_property/view_all_property.dart';
 import 'package:property_app/widgets/container_widget.dart';
 import 'package:property_app/widgets/shimmer.dart';
@@ -79,130 +79,121 @@ class ListOfProperties extends StatelessWidget {
             ],
           ),
           20.ph,
-          Obx(
-            () => FutureBuilder(
-              future: properttyListController.fetchApi(
-                  propertytypeid: categoryController.selectedCategory.value),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return loadingUi();
-                } else if (snapshot.hasError) {
-                  return TextWidget(text: snapshot.error.toString());
-                } else if (snapshot.hasData) {
-                  return snapshot.data.data.length == 0
-                      ? TextWidget(
-                          text: 'No Data Found',
-                          color: secondary_color,
-                        ).center()
-                      : SizedBox(
-                          height: 320.w,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: const BouncingScrollPhysics(),
-                            itemCount: snapshot.data.data.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return PropertiesCard(
-                                userSelectionIndex: useSelectionInidex,
-                                index: index,
-                                snapshot: snapshot,
-                              );
-                            },
-                          ),
-                        );
-                }
+          FutureBuilder(
+            future: properttyListController.fetchApi(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
                 return loadingUi();
-              },
-            ),
+              } else if (snapshot.hasError) {
+                return TextWidget(text: snapshot.error.toString());
+              } else if (snapshot.hasData) {
+                return snapshot.data.data.length == 0
+                    ? TextWidget(
+                        text: 'No Data Found',
+                        color: secondary_color,
+                      ).center()
+                    : SizedBox(
+                        height: 320.w,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: snapshot.data.data.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return PropertiesCard(
+                              userSelectionIndex: useSelectionInidex,
+                              index: index,
+                              snapshot: snapshot,
+                            );
+                          },
+                        ),
+                      );
+              }
+              return loadingUi();
+            },
           ),
           20.ph,
-          Obx(
-            () => Visibility(
-              visible: categoryController.selectedCategory.value.isEmpty
-                  ? true
-                  : false,
-              child: _filteredProperty(
-                  properttyListController, '1', 'Residential'),
-            ),
+          Visibility(
+            visible: useSelectionInidex == 2,
+            child:
+                _filteredProperty(properttyListController, '1', 'Residential'),
           ),
           _display_ads(ads2controller),
           20.ph,
-          Obx(
-            () => Visibility(
-              visible: categoryController.selectedCategory.value.isEmpty
-                  ? true
-                  : false,
-              child:
-                  _filteredProperty(properttyListController, '2', 'Commercial'),
-            ),
+          Visibility(
+            visible: useSelectionInidex == 2,
+            child:
+                _filteredProperty(properttyListController, '2', 'Commercial'),
           ),
           20.ph,
-          Obx(
-            () => Visibility(
-              visible: categoryController.selectedCategory.value.isEmpty
-                  ? true
-                  : false,
-              child:
-                  _filteredProperty(properttyListController, '3', 'Apartments'),
-            ),
+          Visibility(
+            visible: useSelectionInidex == 2,
+            child:
+                _filteredProperty(properttyListController, '3', 'Apartments'),
           ),
           20.ph,
           _display_ads(ads3controller),
           20.ph,
-          Obx(
-            () => Visibility(
-              visible: categoryController.selectedCategory.value.isEmpty
-                  ? true
-                  : false,
-              child:
-                  _filteredProperty(properttyListController, '5', 'Plot/Lands'),
+          Visibility(
+            visible: useSelectionInidex == 2,
+            child:
+                _filteredProperty(properttyListController, '5', 'Plot/Lands'),
+          ),
+          20.ph,
+          Visibility(
+            visible: useSelectionInidex == 2,
+            child: _filteredProperty(
+                properttyListController, '6', 'Independnt House&villa'),
+          ),
+          20.ph,
+          Visibility(
+            visible: useSelectionInidex == 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextWidget(
+                  text: 'Recomended Properties',
+                  color: secondary_color,
+                  textAlign: TextAlign.left,
+                  size: 17.sp,
+                  weight: FontWeight.w600,
+                ),
+                20.ph,
+                const RecomendedPropertiesView(),
+              ],
             ),
           ),
-          20.ph,
-          Obx(
-            () => Visibility(
-              visible: categoryController.selectedCategory.value.isEmpty
-                  ? true
-                  : false,
-              child: _filteredProperty(
-                  properttyListController, '6', 'Independnt House&villa'),
-            ),
-          ),
-          20.ph,
-          TextWidget(
-            text: 'Recomended Properties',
-            color: secondary_color,
-            textAlign: TextAlign.left,
-            size: 17.sp,
-            weight: FontWeight.w600,
-          ),
-          20.ph,
-          const RecomendedPropertiesView(),
           20.ph,
           _display_ads(ads4controller),
           20.ph,
-          Obx(
-            () => Visibility(
-              visible: categoryController.selectedCategory.value.isEmpty
-                  ? true
-                  : false,
-              child:
-                  _filteredProperty(properttyListController, '7', 'Row House'),
+          Visibility(
+            visible: useSelectionInidex == 2,
+            child: _filteredProperty(properttyListController, '7', 'Row House'),
+          ),
+          20.ph,
+          Visibility(
+              visible: useSelectionInidex == 2,
+              child: ProjectsView(useSelectionInidex: useSelectionInidex)),
+          20.ph,
+          Visibility(
+            visible: useSelectionInidex == 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextWidget(
+                  text: 'Recomended Projects',
+                  color: secondary_color,
+                  textAlign: TextAlign.left,
+                  size: 17.sp,
+                  weight: FontWeight.w600,
+                ),
+                20.ph,
+                RecomndedProjectsView(
+                  useSelectionInidex: useSelectionInidex,
+                ),
+              ],
             ),
           ),
-          20.ph,
-          ProjectsView(useSelectionInidex: useSelectionInidex),
-          20.ph,
-          20.ph,
-          TextWidget(
-            text: 'Recomended Projects',
-            color: secondary_color,
-            textAlign: TextAlign.left,
-            size: 17.sp,
-            weight: FontWeight.w600,
-          ),
-          20.ph,
-          const RecomndedProjectsView(),
           20.ph,
           Visibility(
               visible: useSelectionInidex == 2,
